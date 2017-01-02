@@ -73,7 +73,8 @@ public class NullUnitTest {
 
   @Test
   public void chopperInheritance2FieldTest() throws Exception {
-    VeryBaseFieldNull veryBaseFieldNull = new DetailFieldNull(new DisposeElement(), "Test2", "Test3");
+    VeryBaseFieldNull veryBaseFieldNull = new DetailFieldNull(new DisposeElement(), "Test2",
+        "Test3");
     Chopper.chopp(veryBaseFieldNull);
     DetailFieldNull detailFieldNull = (DetailFieldNull) veryBaseFieldNull;
     assertTrue(detailFieldNull.s1 == null);
