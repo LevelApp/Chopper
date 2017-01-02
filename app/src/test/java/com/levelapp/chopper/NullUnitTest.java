@@ -3,6 +3,7 @@ package com.levelapp.chopper;
 import static org.junit.Assert.assertTrue;
 
 import com.levelapp.annotation.Chopper;
+import com.levelapp.chopper.dispose.DisposeElement;
 import com.levelapp.chopper.inheritance.DetailFieldNull;
 import com.levelapp.chopper.inheritance.VeryBaseFieldNull;
 import com.levelapp.chopper.nullcheck.AllFieldToNull;
@@ -62,8 +63,8 @@ public class NullUnitTest {
   }
 
   @Test
-  public void choppeInheritanceFieldTest() throws Exception {
-    DetailFieldNull veryBaseFieldNull = new DetailFieldNull("Test1", "Test2", "Test3");
+  public void chopperInheritanceFieldTest() throws Exception {
+    DetailFieldNull veryBaseFieldNull = new DetailFieldNull(new DisposeElement(), "Test2", "Test3");
     Chopper.chopp(veryBaseFieldNull);
     assertTrue(veryBaseFieldNull.s1 == null);
     assertTrue(veryBaseFieldNull.s2 == null);
@@ -71,8 +72,8 @@ public class NullUnitTest {
   }
 
   @Test
-  public void choppeInheritance2FieldTest() throws Exception {
-    VeryBaseFieldNull veryBaseFieldNull = new DetailFieldNull("Test1", "Test2", "Test3");
+  public void chopperInheritance2FieldTest() throws Exception {
+    VeryBaseFieldNull veryBaseFieldNull = new DetailFieldNull(new DisposeElement(), "Test2", "Test3");
     Chopper.chopp(veryBaseFieldNull);
     DetailFieldNull detailFieldNull = (DetailFieldNull) veryBaseFieldNull;
     assertTrue(detailFieldNull.s1 == null);
