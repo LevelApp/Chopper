@@ -11,6 +11,8 @@ public class ButterKnifeChopperable implements Chopperable<Unbinder> {
 
   @Override
   public void chopp(Unbinder chopp) {
-    chopp.unbind();
+    if (chopp != null){
+      chopp.unbind();
+    }
   }
 }

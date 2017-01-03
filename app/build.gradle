@@ -29,9 +29,13 @@ dependencies {
     compile 'com.android.support:design:25.0.1'
     testCompile 'junit:junit:4.12'
 
-//    compile project (':chopperannotation')
-//    apt project(":chopperprocessor")
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
-    compile 'com.github.levelapp.Chopper:chopperannotation:0.2'
-    apt 'com.github.levelapp.Chopper:chopperprocessor:0.2'
+    compile project (':chopperannotation')
+    compile project(":chopperbutterknife")
+    apt project(":chopperprocessor")
+
+//    compile 'com.github.levelapp.Chopper:chopperannotation:0.2'
+//    apt 'com.github.levelapp.Chopper:chopperprocessor:0.2'
 }
