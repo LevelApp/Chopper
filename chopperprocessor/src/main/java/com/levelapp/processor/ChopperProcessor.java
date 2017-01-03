@@ -37,7 +37,6 @@ import javax.tools.Diagnostic;
 public class ChopperProcessor extends AbstractProcessor {
 
   private static final String ANNOTATION = "@" + Chopp.class.getSimpleName();
-  private static final String CLASS_NAME = "Chopperable";
   private Messager messager;
 
   private ProcessingEnvironment processingEnvironment;
@@ -151,7 +150,7 @@ public class ChopperProcessor extends AbstractProcessor {
 
   public TypeSpec generateClass(final Entry<TypeElement, AnnotatedFields> entry) {
     TypeSpec.Builder builder = TypeSpec
-        .classBuilder(entry.getValue().typeElement.getSimpleName() + "$$" + CLASS_NAME)
+        .classBuilder(entry.getValue().typeElement.getSimpleName() + Chopper.CHOPPER_SUFFIX)
         .addSuperinterface(Chopperable.class)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
     builder.addMethod(letRollNuller(entry));

@@ -7,7 +7,6 @@ import com.levelapp.annotation.Chopperable;
  */
 
 public class DisposableChopperable implements Chopperable<Disposable> {
-
   @Override
   public void chopp(Disposable chopp){
     chopp.dispose();
