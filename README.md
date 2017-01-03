@@ -51,8 +51,8 @@ Download
 
 ```groovy
 dependencies {
-  compile 'com.github.levelapp.Chopper:chopperannotation:0.2'
-  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.2'
+  compile 'com.github.levelapp.Chopper:chopperannotation:0.4'
+  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.4'
 }
 
 allprojects {
