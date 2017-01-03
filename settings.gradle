@@ -1,1 +1,1 @@
-include ':app', ':chopperprocessor', ':chopperannotation'
+include ':app', ':chopperprocessor', ':chopperannotation', ':chopperbutterknife'
