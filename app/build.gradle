@@ -32,11 +32,13 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
-    compile 'io.reactivex:rxjava:1.2.4'
+//    compile 'io.reactivex:rxjava:1.2.4'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.3'
 
     compile project (':chopperannotation')
     compile project(":chopperbutterknife")
-    compile project(":chopperrxjava")
+//    compile project(":chopperrxjava")
+    compile project(":chopperrxjava2")
     apt project(":chopperprocessor")
 
 //    compile 'com.github.levelapp.Chopper:chopperannotation:0.3'
