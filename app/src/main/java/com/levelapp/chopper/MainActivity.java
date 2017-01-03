@@ -11,6 +11,9 @@ import com.levelapp.annotation.Chopp;
 import com.levelapp.annotation.Chopper;
 import com.levelapp.butterknifechopper.ButterKnifeChopperable;
 import com.levelapp.chopper.nullcheck.AllFieldToNull;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
+import rx.subscriptions.Subscriptions;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
   @Chopp(chopper = {ButterKnifeChopperable.class})
   Unbinder unbinder;
+
+  @Chopp(chopper = {SubscriptionChopperable.class})
+  Subscription subscription = Subscriptions.empty();
+
+  @Chopp(chopper = {SubscriptionChopperable.class})
+  CompositeSubscription compositeSubscription = new CompositeSubscription(Subscriptions.empty());
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
