@@ -32,10 +32,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
-    compile project (':chopperannotation')
-    compile project(":chopperbutterknife")
-    apt project(":chopperprocessor")
+//    compile project (':chopperannotation')
+//    compile project(":chopperbutterknife")
+//    apt project(":chopperprocessor")
 
-//    compile 'com.github.levelapp.Chopper:chopperannotation:0.2'
-//    apt 'com.github.levelapp.Chopper:chopperprocessor:0.2'
+    compile 'com.github.levelapp.Chopper:chopperannotation:0.3'
+    compile 'com.github.levelapp.Chopper:chopperbutterknife:0.3'
+    apt 'com.github.levelapp.Chopper:chopperprocessor:0.3'
 }
