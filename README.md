@@ -23,16 +23,25 @@ class ExampleActivity extends Activity {
 Other library support
 --------
 * ButterKnife
+```java
+  @Chopp(chopper = {ButterKnifeChopperable.class})
+```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperbutterknife:0.4'
 ```
 
 * RxJava
+```java
+  @Chopp(chopper = {SubscriptionChopperable.class})
+```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperrxjava:0.4'
 ```
 
 * RxJava2
+```java
+  @Chopp(chopper = {SubscriptionChopperable.class})
+```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperrxjava2:0.4'
 ```
