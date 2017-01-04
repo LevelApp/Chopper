@@ -15,8 +15,18 @@
   tools:showIn="@layout/activity_main">
 
   <TextView
-    android:id="@+id/text"
+    android:layout_centerInParent="true"
+    android:id="@+id/Counter.Text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Hello World!"/>
+    tools:text="Hello World!"/>
+
+  <TextView
+    android:layout_below="@+id/Counter.Text"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/Random.Text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:text="Hello World!"/>
+
 </RelativeLayout>
