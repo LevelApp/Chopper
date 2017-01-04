@@ -20,39 +20,13 @@ class ExampleActivity extends Activity {
 }
 ```
 
-Other library support
---------
-* ButterKnife
-```java
-  @Chopp(chopper = {ButterKnifeChopperable.class})
-```
-```groovy
-  compile 'com.github.levelapp.Chopper:chopperbutterknife:0.4'
-```
-
-* RxJava
-```java
-  @Chopp(chopper = {SubscriptionChopperable.class})
-```
-```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava:0.4'
-```
-
-* RxJava2
-```java
-  @Chopp(chopper = {SubscriptionChopperable.class})
-```
-```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava2:0.4'
-```
-
 Download
 --------
 
 ```groovy
 dependencies {
-  compile 'com.github.levelapp.Chopper:chopperannotation:0.4'
-  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.4'
+  compile 'com.github.levelapp.Chopper:chopperannotation:0.5'
+  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.5'
 }
 
 allprojects {
@@ -60,6 +34,40 @@ allprojects {
         maven { url "https://jitpack.io" }
     }
 }
+```
+
+Other libraries support
+--------
+* ButterKnife
+```java
+  @Chopp(chopper = {ButterKnifeChopperable.class})
+```
+```groovy
+  compile 'com.github.levelapp.Chopper:chopperbutterknife:0.5'
+```
+
+* RxJava
+```java
+  @Chopp(chopper = {SubscriptionChopperable.class})
+```
+```groovy
+  compile 'com.github.levelapp.Chopper:chopperrxjava:0.5'
+```
+
+* RxJava2
+```java
+  @Chopp(chopper = {SubscriptionChopperable.class})
+```
+```groovy
+  compile 'com.github.levelapp.Chopper:chopperrxjava2:0.5'
+```
+
+* Realm
+```java
+  @Chopp(chopper = {RealmChopperable.class})
+```
+```groovy
+  compile 'com.github.levelapp.Chopper:chopperrealm:0.5'
 ```
 
 License
