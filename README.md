@@ -70,6 +70,20 @@ Other libraries support
   compile 'com.github.levelapp.Chopper:chopperrealm:0.5'
 ```
 
+Proguard
+--------
+
+```
+#Chopper
+-dontwarn com.levelapp.chopper.**
+-keep class com.levelapp.chopper.** { *; }
+-keep class **$$Chopperable { *; }
+-keepclasseswithmembernames class * {
+    @com.levelapp.annotation.* <fields>;
+}
+-keepnames class * { @com.levelapp.annotation.Chopp *;}
+```
+
 License
 -------
 
