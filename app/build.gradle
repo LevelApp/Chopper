@@ -40,8 +40,11 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.4'
     compile 'io.reactivex:rxandroid:1.2.1'
 
+    compile 'io.realm:realm-android-library:2.2.1'
+
     compile project (':chopperannotation')
     compile project(":chopperbutterknife")
+    compile project(":chopperrealm")
     compile project(":chopperrxjava")
     apt project(":chopperprocessor")
 

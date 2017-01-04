@@ -10,6 +10,7 @@ import butterknife.Unbinder;
 import com.levelapp.annotation.Chopp;
 import com.levelapp.annotation.Chopper;
 import com.levelapp.butterknifechopper.ButterKnifeChopperable;
+import com.levelapp.realmchopper.RealmChopperable;
 import io.realm.Realm;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
   @Chopp(chopper = {ButterKnifeChopperable.class})
   Unbinder unbinder;
 
-  @Chopp
+  @Chopp(chopper = RealmChopperable.class)
   Realm realm;
 
   @Override
@@ -84,7 +85,26 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
-    Chopper.chopp(this);
+    dispose();
     super.onDestroy();
+  }
+
+  private void dispose() {
+    if (unbinder != null){
+      unbinder.unbind();
+    }
+    unbinder = null;
+    if (subscription != null && subscription.isUnsubscribed() == false){
+      subscription.unsubscribe();
+    }
+    subscription = null;
+    if (compositeSubscription != null && compositeSubscription.isUnsubscribed() == false){
+      compositeSubscription.unsubscribe();
+    }
+    compositeSubscription = null;
+    if (realm != null && realm.isClosed() == false){
+      realm.close();
+    }
+    realm = null;
   }
 }

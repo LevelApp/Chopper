@@ -32,3 +32,12 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+
+#Chopper
+-dontwarn com.levelapp.chopper.**
+-keep class com.levelapp.chopper.** { *; }
+-keep class **$$Chopperable { *; }
+-keepclasseswithmembernames class * {
+    @com.levelapp.annotation.* <fields>;
+}
+-keepnames class * { @com.levelapp.annotation.Chopp *;}

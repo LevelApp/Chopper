@@ -1,4 +1,4 @@
-package com.levelapp.chopper;
+package com.levelapp.realmchopper;
 
 import com.levelapp.annotation.Chopperable;
 import io.realm.Realm;
@@ -11,7 +11,7 @@ public class RealmChopperable implements Chopperable<Realm> {
 
   @Override
   public void chopp(Realm chopp) {
-    if (chopp != null){
+    if (chopp != null && !chopp.isClosed()){
       chopp.close();
     }
   }
