@@ -85,26 +85,28 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
-    dispose();
+//    implement and call dispose()
+//    or just:
+    Chopper.chopp(this);
     super.onDestroy();
   }
 
-  private void dispose() {
-    if (unbinder != null){
-      unbinder.unbind();
-    }
-    unbinder = null;
-    if (subscription != null && subscription.isUnsubscribed() == false){
-      subscription.unsubscribe();
-    }
-    subscription = null;
-    if (compositeSubscription != null && compositeSubscription.isUnsubscribed() == false){
-      compositeSubscription.unsubscribe();
-    }
-    compositeSubscription = null;
-    if (realm != null && realm.isClosed() == false){
-      realm.close();
-    }
-    realm = null;
-  }
+//  private void dispose() {
+//    if (unbinder != null){
+//      unbinder.unbind();
+//    }
+//    unbinder = null;
+//    if (subscription != null && subscription.isUnsubscribed() == false){
+//      subscription.unsubscribe();
+//    }
+//    subscription = null;
+//    if (compositeSubscription != null && compositeSubscription.isUnsubscribed() == false){
+//      compositeSubscription.unsubscribe();
+//    }
+//    compositeSubscription = null;
+//    if (realm != null && realm.isClosed() == false){
+//      realm.close();
+//    }
+//    realm = null;
+//  }
 }
