@@ -215,7 +215,7 @@ public class ChopperProcessor extends AbstractProcessor {
       builder.append("chopper.chopp(");
       builder.append("element.");
       builder.append(variableElement.getSimpleName());
-      builder.append(", element");
+      builder.append(", enclosed");
       builder.append(");");
       builder.append(System.getProperty("line.separator"));
     }
