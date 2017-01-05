@@ -6,10 +6,10 @@ code for you.
 
 ```java
 class ExampleActivity extends Activity {
-  @Chopper() 
+  @Chopp() 
   SomeObject someObject;
 
-  @Chopper() 
+  @Chopp() 
   SomeOtherObject someOtherObject;
   
   @Override
