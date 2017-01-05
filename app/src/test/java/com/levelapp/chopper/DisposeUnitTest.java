@@ -16,10 +16,10 @@ public class DisposeUnitTest {
 
   @Test
   public void disposeSimpleTest() throws Exception {
-    Chopperable<Disposable> chopper = new DisposableChopperable();
+    Chopperable<Disposable, Object> chopper = new DisposableChopperable();
     DisposeElement disposeElement = new DisposeElement();
     Assert.assertFalse(disposeElement.isDisposed());
-    chopper.chopp(disposeElement);
+    chopper.chopp(disposeElement, this);
     Assert.assertTrue(disposeElement.isDisposed());
   }
 }

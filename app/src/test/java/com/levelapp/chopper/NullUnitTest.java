@@ -24,7 +24,7 @@ public class NullUnitTest {
   public void nullCheckAllFieldTest() throws Exception {
     AllFieldToNull allFieldToNull = new AllFieldToNull("Test1", "Test2");
     AllFieldToNull$$Chopperable chopper = new AllFieldToNull$$Chopperable();
-    chopper.chopp(allFieldToNull);
+    chopper.chopp(allFieldToNull, this);
     assertTrue(allFieldToNull.s1 == null);
     assertTrue(allFieldToNull.s2 == null);
   }
@@ -33,7 +33,7 @@ public class NullUnitTest {
   public void nullCheckSomeFieldTest() throws Exception {
     SomeFieldToNull someFieldToNull = new SomeFieldToNull("Test1", "Test2");
     SomeFieldToNull$$Chopperable chopper = new SomeFieldToNull$$Chopperable();
-    chopper.chopp(someFieldToNull);
+    chopper.chopp(someFieldToNull, this);
     assertTrue(someFieldToNull.s1 == null);
     assertTrue(someFieldToNull.s2 != null);
   }

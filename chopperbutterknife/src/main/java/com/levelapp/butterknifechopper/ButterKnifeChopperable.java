@@ -7,12 +7,12 @@ import com.levelapp.annotation.Chopperable;
  * Created by rafaldziuryk on 03.01.17.
  */
 
-public class ButterKnifeChopperable implements Chopperable<Unbinder> {
+public class ButterKnifeChopperable implements Chopperable<Unbinder, Object> {
 
   @Override
-  public void chopp(Unbinder chopp) {
-    if (chopp != null){
-      chopp.unbind();
+  public void chopp(Unbinder target, Object enclosed) {
+    if (target != null){
+      target.unbind();
     }
   }
 }

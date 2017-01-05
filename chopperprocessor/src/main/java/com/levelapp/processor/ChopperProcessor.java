@@ -172,6 +172,7 @@ public class ChopperProcessor extends AbstractProcessor {
         .addModifiers(Modifier.PUBLIC)
         .addStatement(builder.toString())
         .addParameter(TypeName.OBJECT, "instance")
+        .addParameter(TypeName.OBJECT, "enclosed")
         .returns(TypeName.VOID)
         .build();
   }
@@ -214,6 +215,7 @@ public class ChopperProcessor extends AbstractProcessor {
       builder.append("chopper.chopp(");
       builder.append("element.");
       builder.append(variableElement.getSimpleName());
+      builder.append(", element");
       builder.append(");");
       builder.append(System.getProperty("line.separator"));
     }
@@ -270,7 +272,7 @@ public class ChopperProcessor extends AbstractProcessor {
 
   private MethodSpec chopp() {
     StringBuilder builder = new StringBuilder();
-    builder.append("chopper(instance);");
+    builder.append("chopper(instance, enclosed);");
     builder.append(System.getProperty("line.separator"));
     builder.append("nuller(instance)");
 
@@ -279,6 +281,7 @@ public class ChopperProcessor extends AbstractProcessor {
         .addModifiers(Modifier.PUBLIC)
         .addAnnotation(Override.class)
         .addParameter(TypeName.OBJECT, "instance")
+        .addParameter(TypeName.OBJECT, "enclosed")
         .addStatement(builder.toString())
         .returns(TypeName.VOID)
         .build();

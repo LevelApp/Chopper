@@ -29,7 +29,7 @@ public class Chopper {
   }
 
   private static void chopp(Object object, Chopperable chopperable) {
-    chopperable.chopp(object);
+    chopperable.chopp(object, object);
   }
 
   private static String prepareClassName(Object object) {
