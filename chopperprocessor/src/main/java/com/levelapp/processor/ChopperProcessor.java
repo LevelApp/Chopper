@@ -128,7 +128,7 @@ public class ChopperProcessor extends AbstractProcessor {
 
   private boolean isValidField(VariableElement element) {
     if (!hasAccess(element)) {
-      String message = String.format("Classes annotated with %s must be public.",
+      String message = String.format("Classes annotated with %s cannot be private or final.",
           ANNOTATION);
       messager.printMessage(Diagnostic.Kind.ERROR, message, element);
       return false;
