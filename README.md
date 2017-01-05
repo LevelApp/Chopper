@@ -39,7 +39,7 @@ allprojects {
 Android support
 --------
 
-* ButterKnife
+* Android
 ```java
   @Chopp(chopper = {BroadcastReceiverChopperable.class})
   @Chopp(chopper = {RecyclerViewChopperable.class})
