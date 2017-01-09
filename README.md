@@ -62,7 +62,7 @@ Other libraries support
   @Chopp(chopper = {SubscriptionChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava:0.6.1'
+  compile 'com.github.levelapp.Chopper:chopperrxjava:0.6.2'
 ```
 
 * RxJava2
