@@ -2,16 +2,18 @@ package com.levelapp.realmchopper;
 
 import com.levelapp.annotation.Chopperable;
 import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 /**
  * Created by rafaldziuryk on 05.01.17.
  */
 
-public class RealmChangeListenerChopperable implements Chopperable<RealmObject, RealmChangeListener> {
+public class RealmResultChangeListenerChopperable implements Chopperable<RealmResults<? extends RealmModel>, RealmChangeListener> {
 
   @Override
-  public void chopp(RealmObject target, RealmChangeListener enclosed) {
+  public void chopp(RealmResults<? extends RealmModel> target, RealmChangeListener enclosed) {
     if (target != null && enclosed != null){
       target.removeChangeListener(enclosed);
     }
