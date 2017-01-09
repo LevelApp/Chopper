@@ -128,7 +128,7 @@ public class ChopperProcessor extends AbstractProcessor {
 
   private boolean isValidField(VariableElement element) {
     if (!hasAccess(element)) {
-      String message = String.format("Classes annotated with %s cannot be private or final.",
+      String message = String.format("Classes annotated with %s cannot be private.",
           ANNOTATION);
       messager.printMessage(Diagnostic.Kind.ERROR, message, element);
       return false;
@@ -136,16 +136,16 @@ public class ChopperProcessor extends AbstractProcessor {
     return true;
   }
 
-  private boolean hasAccess(VariableElement annotatedClass) {
-    return !isFinal(annotatedClass) && !isPrivate(annotatedClass);
+  private boolean hasAccess(VariableElement annotatedField) {
+    return !isPrivate(annotatedField);
   }
 
-  private boolean isFinal(VariableElement annotatedClass) {
-    return annotatedClass.getModifiers().contains(Modifier.FINAL);
+  private boolean isPrivate(VariableElement annotatedField) {
+    return annotatedField.getModifiers().contains(Modifier.PRIVATE);
   }
 
-  private boolean isPrivate(VariableElement annotatedClass) {
-    return annotatedClass.getModifiers().contains(Modifier.PRIVATE);
+  private boolean isFinal(VariableElement annotatedField) {
+    return annotatedField.getModifiers().contains(Modifier.FINAL);
   }
 
   public TypeSpec generateClass(final Entry<TypeElement, AnnotatedFields> entry) {
@@ -229,6 +229,9 @@ public class ChopperProcessor extends AbstractProcessor {
     castInstance(entry, builder);
 
     for (VariableElement variableElement : entry.getValue().variableElements) {
+      if (isFinal(variableElement)) {
+        continue;
+      }
       for (AnnotationMirror annotationMirror : variableElement.getAnnotationMirrors()) {
         Map<? extends ExecutableElement, ? extends AnnotationValue> map = annotationMirror
             .getElementValues();
