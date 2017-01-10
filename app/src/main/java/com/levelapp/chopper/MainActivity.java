@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
   @BindView(R.id.Random_Text)
   TextView random;
+  
+  @Chopp()
+  Object object = new Object();
 
   @Chopp(chopper = {SubscriptionChopperable.class})
   Subscription subscription = Subscriptions.empty();
