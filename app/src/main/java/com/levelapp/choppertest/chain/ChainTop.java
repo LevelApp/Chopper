@@ -1,4 +1,4 @@
-package com.levelapp.chopper.chain;
+package com.levelapp.choppertest.chain;
 
 import com.levelapp.annotation.ChainChopperable;
 import com.levelapp.annotation.Chopp;
@@ -15,6 +15,4 @@ public class ChainTop {
   public ChainTop(ChainMedium chainMedium){
     this.chainMedium = chainMedium;
   }
-
-
 }

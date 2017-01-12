@@ -1,4 +1,4 @@
-package com.levelapp.chopper.nullcheck;
+package com.levelapp.choppertest.nullcheck;
 
 import com.levelapp.annotation.Chopp;
 

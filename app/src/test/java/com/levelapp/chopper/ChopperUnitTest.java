@@ -3,11 +3,11 @@ package com.levelapp.chopper;
 import static org.junit.Assert.assertTrue;
 
 import com.levelapp.annotation.Chopper;
-import com.levelapp.chopper.chain.ChainField;
-import com.levelapp.chopper.dispose.DisposeElement;
-import com.levelapp.chopper.dispose.DisposeField;
-import com.levelapp.chopper.nullcheck.AllFieldToNull;
-import com.levelapp.chopper.nullcheck.SomeFieldToNull;
+import com.levelapp.choppertest.chain.ChainField;
+import com.levelapp.choppertest.dispose.DisposeElement;
+import com.levelapp.choppertest.dispose.DisposeField;
+import com.levelapp.choppertest.nullcheck.AllFieldToNull;
+import com.levelapp.choppertest.nullcheck.SomeFieldToNull;
 import org.junit.Test;
 
 /**

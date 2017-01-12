@@ -1,4 +1,4 @@
-package com.levelapp.chopper.dispose;
+package com.levelapp.choppertest.dispose;
 
 import com.levelapp.annotation.Chopperable;
 

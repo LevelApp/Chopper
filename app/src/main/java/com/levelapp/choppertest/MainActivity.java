@@ -1,15 +1,17 @@
-package com.levelapp.chopper;
+package com.levelapp.choppertest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.levelapp.annotation.Chopp;
 import com.levelapp.annotation.Chopper;
+import com.levelapp.betterproguard.BetterProguardImpl_Chopperable;
 import com.levelapp.butterknifechopper.ButterKnifeChopperable;
+import com.levelapp.chopper.R;
+import com.levelapp.chopper.SubscriptionChopperable;
 import com.levelapp.realmchopper.RealmChopperable;
 import io.realm.Realm;
 import java.util.Random;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Realm.init(this);
+    Chopper.init(new BetterProguardImpl_Chopperable());
     realm = Realm.getDefaultInstance();
     setContentView(R.layout.activity_main);
     unbinder = ButterKnife.bind(this);

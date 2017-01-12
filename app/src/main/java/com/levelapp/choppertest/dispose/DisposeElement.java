@@ -1,4 +1,4 @@
-package com.levelapp.chopper.dispose;
+package com.levelapp.choppertest.dispose;
 
 /**
  * Created by rafaldziuryk on 28.12.16.

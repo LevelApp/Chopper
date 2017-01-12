@@ -3,14 +3,14 @@ package com.levelapp.chopper;
 import static org.junit.Assert.assertTrue;
 
 import com.levelapp.annotation.Chopper;
-import com.levelapp.chopper.dispose.DisposeElement;
-import com.levelapp.chopper.inheritance.DetailFieldNull;
-import com.levelapp.chopper.inheritance.VeryBaseFieldNull;
-import com.levelapp.chopper.nullcheck.AllFieldToNull;
-import com.levelapp.chopper.nullcheck.AllFieldToNull$$Chopperable;
-import com.levelapp.chopper.nullcheck.AvoidNullFieldToNull;
-import com.levelapp.chopper.nullcheck.SomeFieldToNull;
-import com.levelapp.chopper.nullcheck.SomeFieldToNull$$Chopperable;
+import com.levelapp.choppertest.dispose.DisposeElement;
+import com.levelapp.choppertest.inheritance.DetailFieldNull;
+import com.levelapp.choppertest.inheritance.VeryBaseFieldNull;
+import com.levelapp.choppertest.nullcheck.AllFieldToNull;
+import com.levelapp.choppertest.nullcheck.AllFieldToNull$$Chopperable;
+import com.levelapp.choppertest.nullcheck.AvoidNullFieldToNull;
+import com.levelapp.choppertest.nullcheck.SomeFieldToNull;
+import com.levelapp.choppertest.nullcheck.SomeFieldToNull$$Chopperable;
 import org.junit.Test;
 
 /**

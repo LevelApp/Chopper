@@ -9,7 +9,6 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +67,9 @@ public class ChopperProcessor extends AbstractProcessor {
     } catch (IOException e) {
       messager.printMessage(Diagnostic.Kind.ERROR, "Couldn't generate class");
     }
+
+    BetterProguardProcessor betterProguard = new BetterProguardProcessor(Chopperable.class);
+    betterProguard.generateBetterProguard(annotatedFieldSet.keySet(), processingEnvironment);
 
     return true;
   }

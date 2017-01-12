@@ -1,8 +1,8 @@
-package com.levelapp.chopper.inheritance;
+package com.levelapp.choppertest.inheritance;
 
 import com.levelapp.annotation.Chopp;
-import com.levelapp.chopper.dispose.DisposableChopperable;
-import com.levelapp.chopper.dispose.DisposeElement;
+import com.levelapp.choppertest.dispose.DisposableChopperable;
+import com.levelapp.choppertest.dispose.DisposeElement;
 
 /**
  * Created by rafaldziuryk on 01.01.17.

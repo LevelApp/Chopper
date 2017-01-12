@@ -1,9 +1,9 @@
 package com.levelapp.chopper;
 
 import com.levelapp.annotation.Chopperable;
-import com.levelapp.chopper.dispose.Disposable;
-import com.levelapp.chopper.dispose.DisposableChopperable;
-import com.levelapp.chopper.dispose.DisposeElement;
+import com.levelapp.choppertest.dispose.Disposable;
+import com.levelapp.choppertest.dispose.DisposableChopperable;
+import com.levelapp.choppertest.dispose.DisposeElement;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -13,11 +13,16 @@ public class Chopper {
 
   public static final String CHOPPER_PROPERTY = "chopper";
   public static final String SET_NULL_PROPERTY = "setNull";
-  public static final String CHOPPER_SUFFIX = "$$Chopperable";
+  public static final String CHOPPER_SUFFIX = "_Chopperable";
 
   private static final Map<Class, Chopperable> CLASS_MAPPER = new HashMap<>();
   private static final Map<Class<? extends Chopperable>, Chopperable> CHOPPERABLE_MAPPER = new HashMap<Class<? extends Chopperable>, Chopperable>();
 
+  private static BetterProguard betterProguard;
+
+  public static void init(BetterProguard betterProguard){
+    Chopper.betterProguard = betterProguard;
+  }
   /**
    * Used this method to kill all object that you want to kill!
    * @param object object to kill!
@@ -44,16 +49,16 @@ public class Chopper {
       return CLASS_MAPPER.get(object.getClass());
     } else {
       Chopperable chopperable = null;
-      try {
-        String className = prepareClassName(object);
-        chopperable = (Chopperable) Class.forName(className).newInstance();
-      } catch (InstantiationException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      }
+//      try {
+//        String className = prepareClassName(object);
+        chopperable = betterProguard.getFactory(object);
+//      } catch (InstantiationException e) {
+//        e.printStackTrace();
+//      } catch (IllegalAccessException e) {
+//        e.printStackTrace();
+//      } catch (ClassNotFoundException e) {
+//        e.printStackTrace();
+//      }
       CLASS_MAPPER.put(object.getClass(), chopperable);
       return chopperable;
     }

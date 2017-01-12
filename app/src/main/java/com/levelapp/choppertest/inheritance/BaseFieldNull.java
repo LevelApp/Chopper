@@ -1,4 +1,4 @@
-package com.levelapp.chopper.inheritance;
+package com.levelapp.choppertest.inheritance;
 
 import com.levelapp.annotation.Chopp;
 
