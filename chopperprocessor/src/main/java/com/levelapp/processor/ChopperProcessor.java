@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
@@ -31,6 +32,7 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
 
 @AutoService(Processor.class)
 public class ChopperProcessor extends AbstractProcessor {
@@ -130,7 +132,7 @@ public class ChopperProcessor extends AbstractProcessor {
 
   private boolean isValidField(VariableElement element) {
     if (!hasAccess(element)) {
-      String message = String.format("Classes annotated with %s cannot be private.",
+      String message = String.format("Classes annotated with %s cannot be private or primitive.",
           ANNOTATION);
       messager.printMessage(Diagnostic.Kind.ERROR, message, element);
       return false;
@@ -139,7 +141,7 @@ public class ChopperProcessor extends AbstractProcessor {
   }
 
   private boolean hasAccess(VariableElement annotatedField) {
-    return !isPrivate(annotatedField);
+    return !isPrivate(annotatedField) && !isPrimitive(annotatedField);
   }
 
   private boolean isPrivate(VariableElement annotatedField) {
@@ -148,6 +150,10 @@ public class ChopperProcessor extends AbstractProcessor {
 
   private boolean isFinal(VariableElement annotatedField) {
     return annotatedField.getModifiers().contains(Modifier.FINAL);
+  }
+
+  private boolean isPrimitive(VariableElement annotatedField) {
+    return annotatedField.asType().getKind().isPrimitive();
   }
 
   public TypeSpec generateClass(final Entry<TypeElement, AnnotatedFields> entry) {
