@@ -147,7 +147,7 @@ public class DisposableChopperable implements Chopperable<Disposable, Object> {
 ChainChopperable
 --------
 
-With `ChainChopperable` `Chopper` create DESTROY chain
+With `ChainChopperable` `Chopper` create DESTROY chain.
 Look at sample for better understanding
 
 License
