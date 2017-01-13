@@ -1,16 +1,28 @@
 Chopper
 ============
 
-Field destroying for java objects that delete references to and dispose/close object which uses annotation processing to generate boilerplate
+Field cleaning and destroying for java objects that delete references to and dispose/close object which uses annotation processing to generate boilerplate
 code for you.
 
 ```java
 class ExampleActivity extends Activity {
-  @Chopp() 
-  SomeObject someObject;
+  @Chopp(chopper = {SubscriptionChopperable.class})
+  Subscription subscription = Subscriptions.empty();
 
-  @Chopp() 
-  SomeOtherObject someOtherObject;
+  @Chopp(chopper = {SubscriptionChopperable.class})
+  CompositeSubscription compositeSubscription = new CompositeSubscription();
+
+  @Chopp(chopper = {ButterKnifeChopperable.class})
+  Unbinder unbinder;
+
+  @Chopp(chopper = RealmChopperable.class)
+  Realm realm;
+
+  @Chopp(chopper = ChainChopperable.class)
+  ChainField chainField = new ChainField();
+
+  @Chopp(chopper = {DisposableChopperable.class /*, SomeOtherChopperable.class */})
+  DisposeElement disposeField = new DisposeElement();
   
   @Override
   protected void onDestroy() {
@@ -25,8 +37,8 @@ Download
 
 ```groovy
 dependencies {
-  compile 'com.github.levelapp.Chopper:chopperannotation:0.6.2'
-  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.6.2'
+  compile 'com.github.levelapp.Chopper:chopperannotation:0.8.0'
+  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.8.0'
 }
 
 allprojects {
@@ -43,7 +55,7 @@ Android support
   @Chopp(chopper = {RecyclerViewChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperandroid:0.6.2'
+  compile 'com.github.levelapp.Chopper:chopperandroid:0.8.0'
 ```
 
 Other libraries support
@@ -54,7 +66,7 @@ Other libraries support
   @Chopp(chopper = {ButterKnifeChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperbutterknife:0.6.2'
+  compile 'com.github.levelapp.Chopper:chopperbutterknife:0.8.0'
 ```
 
 * RxJava
@@ -62,7 +74,7 @@ Other libraries support
   @Chopp(chopper = {SubscriptionChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava:0.6.2'
+  compile 'com.github.levelapp.Chopper:chopperrxjava:0.8.0'
 ```
 
 * RxJava2
@@ -70,7 +82,7 @@ Other libraries support
   @Chopp(chopper = {SubscriptionChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava2:0.6.2'
+  compile 'com.github.levelapp.Chopper:chopperrxjava2:0.8.0'
 ```
 
 * Realm
@@ -80,11 +92,25 @@ Other libraries support
   @Chopp(chopper = {RealmResultChangeListenerChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrealm:0.6.2'
+  compile 'com.github.levelapp.Chopper:chopperrealm:0.8.0'
 ```
 
 Proguard
 --------
+
+
+With `BetterProguardProcessor`
+
+Call `init()` before first call `Chopper`, e.g. in `Application`
+With `BetterProguardProcessor` all classes can be fully minified
+
+```java
+  Chopper.init(new BetterProguardImpl_Chopperable());
+```
+
+
+Without `BetterProguardProcessor`
+
 
 ```
 #Chopper
@@ -95,6 +121,25 @@ Proguard
     @com.levelapp.annotation.* <fields>;
 }
 -keepnames class * { @com.levelapp.annotation.Chopp *;}
+```
+
+
+Own Chopperable
+--------
+
+Create own `Chopperable` implementation to destroy object in right way
+
+
+```java
+public class DisposableChopperable implements Chopperable<Disposable, Object> {
+
+  @Override
+  public void chopp(Disposable target, Object enclosed) {
+    if (target != null){
+      target.dispose();
+    }
+  }
+}
 ```
 
 License

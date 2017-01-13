@@ -16,7 +16,6 @@ import com.levelapp.chopper.SubscriptionChopperable;
 import com.levelapp.choppertest.chain.ChainField;
 import com.levelapp.choppertest.dispose.DisposableChopperable;
 import com.levelapp.choppertest.dispose.DisposeElement;
-import com.levelapp.choppertest.dispose.DisposeField;
 import com.levelapp.realmchopper.RealmChopperable;
 import io.realm.Realm;
 import java.util.Random;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
   ChainField chainField = new ChainField();
 
   @Chopp(chopper = {DisposableChopperable.class /*, SomeOtherChopperable.class */})
-  DisposeField disposeField = new DisposeField(new DisposeElement());
+  DisposeElement disposeField = new DisposeElement();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
 //      realm.close();
 //    }
 //    realm = null;
+//    if (disposeField != null){
+//      disposeField.dispose();
+//    }
+//    disposeField = null;
 //  }
 
   private void initActivity() {
