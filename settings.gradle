@@ -1,1 +1,1 @@
-include ':app', ':chopperprocessor', ':chopperannotation', ':chopperbutterknife', ':chopperrxjava', ':chopperrxjava2', ':chopperrealm', ':chopperandroid'
+include ':sample', ':chopperprocessor', ':chopperannotation', ':chopperbutterknife', ':chopperrxjava', ':chopperrxjava2', ':chopperrealm', ':chopperandroid'

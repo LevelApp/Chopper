@@ -6,12 +6,17 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.levelapp.annotation.ChainChopperable;
 import com.levelapp.annotation.Chopp;
 import com.levelapp.annotation.Chopper;
 import com.levelapp.betterproguard.BetterProguardImpl_Chopperable;
 import com.levelapp.butterknifechopper.ButterKnifeChopperable;
 import com.levelapp.chopper.R;
 import com.levelapp.chopper.SubscriptionChopperable;
+import com.levelapp.choppertest.chain.ChainField;
+import com.levelapp.choppertest.dispose.DisposableChopperable;
+import com.levelapp.choppertest.dispose.DisposeElement;
+import com.levelapp.choppertest.dispose.DisposeField;
 import com.levelapp.realmchopper.RealmChopperable;
 import io.realm.Realm;
 import java.util.Random;
@@ -44,9 +49,46 @@ public class MainActivity extends AppCompatActivity {
   @Chopp(chopper = RealmChopperable.class)
   Realm realm;
 
+  @Chopp(chopper = ChainChopperable.class)
+  ChainField chainField = new ChainField();
+
+  @Chopp(chopper = {DisposableChopperable.class /*, SomeOtherChopperable.class */})
+  DisposeField disposeField = new DisposeField(new DisposeElement());
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    initActivity();
+  }
+
+  @Override
+  protected void onDestroy() {
+//    implement and call dispose()
+//    or just:
+    Chopper.chopp(this);
+    super.onDestroy();
+  }
+
+//  private void dispose() {
+//    if (unbinder != null){
+//      unbinder.unbind();
+//    }
+//    unbinder = null;
+//    if (subscription != null && subscription.isUnsubscribed() == false){
+//      subscription.unsubscribe();
+//    }
+//    subscription = null;
+//    if (compositeSubscription != null && compositeSubscription.isUnsubscribed() == false){
+//      compositeSubscription.unsubscribe();
+//    }
+//    compositeSubscription = null;
+//    if (realm != null && realm.isClosed() == false){
+//      realm.close();
+//    }
+//    realm = null;
+//  }
+
+  private void initActivity() {
     Realm.init(this);
     Chopper.init(new BetterProguardImpl_Chopperable());
     realm = Realm.getDefaultInstance();
@@ -79,37 +121,10 @@ public class MainActivity extends AppCompatActivity {
     subscription = Observable.interval(1, TimeUnit.SECONDS)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<Long>() {
-      @Override
-      public void call(Long count) {
-        counter.setText("Count: " + count);
-      }
-    });
+          @Override
+          public void call(Long count) {
+            counter.setText("Count: " + count);
+          }
+        });
   }
-
-  @Override
-  protected void onDestroy() {
-//    implement and call dispose()
-//    or just:
-    Chopper.chopp(this);
-    super.onDestroy();
-  }
-
-//  private void dispose() {
-//    if (unbinder != null){
-//      unbinder.unbind();
-//    }
-//    unbinder = null;
-//    if (subscription != null && subscription.isUnsubscribed() == false){
-//      subscription.unsubscribe();
-//    }
-//    subscription = null;
-//    if (compositeSubscription != null && compositeSubscription.isUnsubscribed() == false){
-//      compositeSubscription.unsubscribe();
-//    }
-//    compositeSubscription = null;
-//    if (realm != null && realm.isClosed() == false){
-//      realm.close();
-//    }
-//    realm = null;
-//  }
 }
