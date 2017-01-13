@@ -20,6 +20,10 @@ public class Chopper {
 
   private static BetterProguard betterProguard = new NoBetterProguard();
 
+  /**
+   * Provide factory method to get minified Chopperable class
+   * @param betterProguard add betterProgaurd implementation by use <code>new BetterProguardImpl_Chopperable()</code>
+   */
   public static void init(BetterProguard betterProguard) {
     Chopper.betterProguard = betterProguard;
   }
