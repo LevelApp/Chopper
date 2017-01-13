@@ -101,8 +101,10 @@ Proguard
 
 With `BetterProguardProcessor`
 
-Call `init()` before first call `Chopper`, e.g. in `Application`
-With `BetterProguardProcessor` all classes can be fully minified
+Call `init()` before first call `Chopper`, e.g. in `Application`.
+With `BetterProguardProcessor` all classes can be fully minified.
+BetterProguardImpl_Chopperable will be created after first success build.
+
 
 ```java
   Chopper.init(new BetterProguardImpl_Chopperable());
@@ -141,6 +143,12 @@ public class DisposableChopperable implements Chopperable<Disposable, Object> {
   }
 }
 ```
+
+ChainChopperable
+--------
+
+With `ChainChopperable` `Chopper` create DESTROY chain
+Look at sample for better understanding
 
 License
 -------
