@@ -2,7 +2,7 @@ package com.levelapp.chopperandroid;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 05.01.17.

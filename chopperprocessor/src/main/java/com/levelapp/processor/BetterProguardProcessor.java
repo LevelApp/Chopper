@@ -1,6 +1,6 @@
 package com.levelapp.processor;
 
-import com.levelapp.annotation.BetterProguard;
+import com.levelapp.annotation.betterproguard.BetterProguard;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -18,9 +18,11 @@ import javax.lang.model.element.TypeElement;
 public class BetterProguardProcessor {
 
   private final Class<?> betterInterface;
+  private final Class<?> betterBaseInterface;
 
-  public BetterProguardProcessor(Class<?> betterInterface) {
+  public BetterProguardProcessor(Class<?> betterInterface, Class<?> betterBaseInterface) {
     this.betterInterface = betterInterface;
+    this.betterBaseInterface = betterBaseInterface;
   }
 
   public void generateBetterProguard(
@@ -69,14 +71,14 @@ public class BetterProguardProcessor {
       builder.append("();\n");
       builder.append("}\n");
     }
-    builder.append("return null");
+    builder.append("return new com.levelapp.annotation.chopperable.EmptyChopperable()");
 
     return MethodSpec.methodBuilder("getFactory")
         .addAnnotation(Override.class)
         .addModifiers(Modifier.PUBLIC)
         .addParameter(TypeName.OBJECT, "instance")
         .addStatement(builder.toString())
-        .returns(betterInterface)
+        .returns(betterBaseInterface)
         .build();
   }
 }

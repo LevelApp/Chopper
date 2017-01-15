@@ -1,8 +1,7 @@
 package com.levelapp.realmchopper;
 
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 import io.realm.Realm;
-import io.realm.RealmObject;
 
 /**
  * Created by rafaldziuryk on 03.01.17.

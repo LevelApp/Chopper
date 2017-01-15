@@ -1,13 +1,13 @@
 package com.levelapp.choppertest.chain;
 
-import com.levelapp.annotation.Chopp;
+import com.levelapp.annotation.annotations.ChoppOnPause;
 
 /**
  * Created by rafaldziuryk on 10.01.17.
  */
 
 public class ChainBottom {
-  @Chopp
+  @ChoppOnPause
   public Object object;
 
   public ChainBottom(Object object){

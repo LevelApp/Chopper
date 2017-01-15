@@ -1,6 +1,6 @@
 package com.levelapp.chopper;
 
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 import org.reactivestreams.Subscription;
 
 public class Subscription2Chopperable implements Chopperable<Subscription, Object>{

@@ -1,11 +1,11 @@
 package com.levelapp.choppertest.dispose;
 
-import com.levelapp.annotation.Chopp;
+import com.levelapp.annotation.annotations.ChoppOnPause;
 
 
 public class DisposeField {
 
-    @Chopp(chopper = {DisposableChopperable.class}, setNull = false)
+    @ChoppOnPause({DisposableChopperable.class})
     protected DisposeElement disposeElement;
 
     public DisposeField(DisposeElement disposeElement){

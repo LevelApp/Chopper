@@ -1,7 +1,7 @@
 package com.levelapp.butterknifechopper;
 
 import butterknife.Unbinder;
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 03.01.17.

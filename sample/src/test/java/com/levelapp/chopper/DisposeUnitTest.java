@@ -1,6 +1,6 @@
 package com.levelapp.chopper;
 
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 import com.levelapp.choppertest.dispose.Disposable;
 import com.levelapp.choppertest.dispose.DisposableChopperable;
 import com.levelapp.choppertest.dispose.DisposeElement;

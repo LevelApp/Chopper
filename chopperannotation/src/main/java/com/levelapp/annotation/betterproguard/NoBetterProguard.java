@@ -1,12 +1,14 @@
-package com.levelapp.annotation;
+package com.levelapp.annotation.betterproguard;
 
-import static com.levelapp.annotation.Chopper.CHOPPER_SUFFIX;
+import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 13.01.17.
  */
 
-public class NoBetterProguard implements BetterProguard {
+public abstract class NoBetterProguard<T extends Chopperable> implements BetterProguard {
+
+  T suffix;
 
   @Override
   public Chopperable getFactory(Object instance) {
@@ -25,10 +27,10 @@ public class NoBetterProguard implements BetterProguard {
   }
 
 
-  private static String prepareClassName(Object object) {
+  private String prepareClassName(Object object) {
     Class<?> clazz = object.getClass();
     String className = clazz.getCanonicalName();
-    className = className + CHOPPER_SUFFIX;
+    className = className + "_" + suffix.getClass().getSimpleName();
     return className;
   }
 }

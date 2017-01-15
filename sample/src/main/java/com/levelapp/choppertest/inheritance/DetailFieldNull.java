@@ -1,6 +1,6 @@
 package com.levelapp.choppertest.inheritance;
 
-import com.levelapp.annotation.Chopp;
+import com.levelapp.annotation.annotations.ChoppOnPause;
 import com.levelapp.choppertest.dispose.DisposeElement;
 
 /**
@@ -9,7 +9,7 @@ import com.levelapp.choppertest.dispose.DisposeElement;
 
 public class DetailFieldNull extends BaseFieldNull {
 
-  @Chopp
+  @ChoppOnPause
   public String s3;
 
   public DetailFieldNull(DisposeElement s1, String s2, String s3){

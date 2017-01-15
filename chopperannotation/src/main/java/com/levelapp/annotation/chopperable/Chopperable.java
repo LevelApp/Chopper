@@ -1,4 +1,4 @@
-package com.levelapp.annotation;
+package com.levelapp.annotation.chopperable;
 
 /**
  * Use this interface to prepare own implementation of object destroying

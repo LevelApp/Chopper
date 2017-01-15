@@ -1,7 +1,7 @@
 package com.levelapp.chopperandroid;
 
 import android.support.v7.widget.RecyclerView;
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 05.01.17.

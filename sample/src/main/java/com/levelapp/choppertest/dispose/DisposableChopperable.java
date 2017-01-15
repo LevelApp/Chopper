@@ -1,6 +1,6 @@
 package com.levelapp.choppertest.dispose;
 
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 28.12.16.

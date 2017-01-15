@@ -2,14 +2,18 @@ package com.levelapp.choppertest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import com.levelapp.annotation.ChainChopperable;
-import com.levelapp.annotation.Chopp;
+import com.levelapp.annotation.chopperable.ChainChopperable;
 import com.levelapp.annotation.Chopper;
-import com.levelapp.betterproguard.BetterProguardImpl_Chopperable;
+import com.levelapp.annotation.annotations.ChoppOnDestroy;
+import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnDestroy;
+import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnDestroyView;
+import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnPause;
+import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnStop;
 import com.levelapp.butterknifechopper.ButterKnifeChopperable;
 import com.levelapp.chopper.R;
 import com.levelapp.chopper.SubscriptionChopperable;
@@ -35,30 +39,31 @@ public class MainActivity extends AppCompatActivity {
 
   @BindView(R.id.Random_Text)
   TextView random;
-  
-  @Chopp()
+
+  @ChoppOnDestroy()
   Object object = new Object();
 
-  @Chopp(chopper = {SubscriptionChopperable.class})
+  @ChoppOnDestroy(SubscriptionChopperable.class)
   Subscription subscription = Subscriptions.empty();
 
-  @Chopp(chopper = {SubscriptionChopperable.class})
+  @ChoppOnDestroy(SubscriptionChopperable.class)
   CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-  @Chopp(chopper = {ButterKnifeChopperable.class})
+  @ChoppOnDestroy(ButterKnifeChopperable.class)
   Unbinder unbinder;
 
-  @Chopp(chopper = RealmChopperable.class)
+  @ChoppOnDestroy(RealmChopperable.class)
   Realm realm;
 
-  @Chopp(chopper = ChainChopperable.class)
+  @ChoppOnDestroy(ChainChopperable.class)
   ChainField chainField = new ChainField();
 
-  @Chopp(chopper = {DisposableChopperable.class /*, SomeOtherChopperable.class */})
+  @ChoppOnDestroy({DisposableChopperable.class /*, SomeOtherChopperable.class */})
   DisposeElement disposeField = new DisposeElement();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    Log.w("Lifecycle", getClass().getSimpleName() + "OnCreate" + hashCode());
     super.onCreate(savedInstanceState);
     initActivity();
   }
@@ -67,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onDestroy() {
 //    implement and call dispose()
 //    or just:
-    Chopper.chopp(this);
+    Chopper.onDestroy(this);
     super.onDestroy();
   }
 
@@ -96,12 +101,17 @@ public class MainActivity extends AppCompatActivity {
 
   private void initActivity() {
     Realm.init(this);
-    Chopper.init(new BetterProguardImpl_Chopperable());
+    initChopper();
     realm = Realm.getDefaultInstance();
     setContentView(R.layout.activity_main);
     unbinder = ButterKnife.bind(this);
     startCounter();
     startRandom();
+  }
+
+  private void initChopper() {
+    Chopper
+        .init(new BetterProguardImpl_ChopperableOnPause(), new BetterProguardImpl_ChopperableOnStop(), new BetterProguardImpl_ChopperableOnDestroyView(), new BetterProguardImpl_ChopperableOnDestroy());
   }
 
   private void startRandom() {

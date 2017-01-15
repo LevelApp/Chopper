@@ -122,7 +122,7 @@ Without `BetterProguardProcessor`
 -keepclasseswithmembernames class * {
     @com.levelapp.annotation.* <fields>;
 }
--keepnames class * { @com.levelapp.annotation.Chopp *;}
+-keepnames class * { @com.levelapp.annotation.annotations.ChoppOnPause *;}
 ```
 
 

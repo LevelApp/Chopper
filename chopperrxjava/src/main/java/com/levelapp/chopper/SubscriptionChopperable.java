@@ -1,6 +1,6 @@
 package com.levelapp.chopper;
 
-import com.levelapp.annotation.Chopperable;
+import com.levelapp.annotation.chopperable.Chopperable;
 import rx.Subscription;
 
 public class SubscriptionChopperable implements Chopperable<Subscription, Object> {

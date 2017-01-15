@@ -1,7 +1,7 @@
 package com.levelapp.choppertest.chain;
 
-import com.levelapp.annotation.ChainChopperable;
-import com.levelapp.annotation.Chopp;
+import com.levelapp.annotation.chopperable.ChainChopperable;
+import com.levelapp.annotation.annotations.ChoppOnPause;
 import junit.framework.Assert;
 
 /**
@@ -16,7 +16,7 @@ public class ChainField {
 
   public ChainMedium chainMedium;
 
-  @Chopp(chopper = ChainChopperable.class)
+  @ChoppOnPause(ChainChopperable.class)
   public ChainTop chainTop;
 
   public ChainField(){
