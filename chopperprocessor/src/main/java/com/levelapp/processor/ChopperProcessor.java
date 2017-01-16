@@ -1,6 +1,7 @@
 package com.levelapp.processor;
 
 import com.google.auto.service.AutoService;
+import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.annotations.ChoppOnDestroy;
 import com.levelapp.annotation.annotations.ChoppOnDestroyView;
 import com.levelapp.annotation.annotations.ChoppOnPause;
@@ -76,6 +77,9 @@ public class ChopperProcessor extends AbstractProcessor {
     makeChopperForAnnotation(roundEnv, ChoppOnStop.class, ChopperableOnStop.class);
     makeChopperForAnnotation(roundEnv, ChoppOnDestroyView.class, ChopperableOnDestroyView.class);
     makeChopperForAnnotation(roundEnv, ChoppOnDestroy.class, ChopperableOnDestroy.class);
+
+    BetterProguardFactoryProcessor betterProguardFactoryProcessor = new BetterProguardFactoryProcessor();
+    betterProguardFactoryProcessor.generateBetterProguard(processingEnvironment);
 
     return true;
   }
@@ -194,11 +198,12 @@ public class ChopperProcessor extends AbstractProcessor {
     iterateVariables(entry, builder);
 
     return MethodSpec.methodBuilder("chopper")
-        .addJavadoc("set null to every field annotated with @ChoppOnPause")
+        .addJavadoc("set null to every field annotated with @Chopp")
         .addModifiers(Modifier.PUBLIC)
         .addStatement(builder.toString())
         .addParameter(TypeName.OBJECT, "instance")
         .addParameter(TypeName.OBJECT, "enclosed")
+        .addParameter(Lifecycle.class, "lifecycle")
         .returns(TypeName.VOID)
         .build();
   }
@@ -241,7 +246,7 @@ public class ChopperProcessor extends AbstractProcessor {
       builder.append("chopper.chopp(");
       builder.append("element.");
       builder.append(variableElement.getSimpleName());
-      builder.append(", enclosed");
+      builder.append(", enclosed, lifecycle");
       builder.append(");");
       builder.append(System.getProperty("line.separator"));
     }
@@ -284,7 +289,7 @@ public class ChopperProcessor extends AbstractProcessor {
 
   private MethodSpec chopp() {
     StringBuilder builder = new StringBuilder();
-    builder.append("chopper(instance, enclosed);");
+    builder.append("chopper(instance, enclosed, lifecycle);");
     builder.append(System.getProperty("line.separator"));
     builder.append("nuller(instance)");
 
@@ -294,6 +299,7 @@ public class ChopperProcessor extends AbstractProcessor {
         .addAnnotation(Override.class)
         .addParameter(TypeName.OBJECT, "instance")
         .addParameter(TypeName.OBJECT, "enclosed")
+        .addParameter(Lifecycle.class, "lifecycle")
         .addStatement(builder.toString())
         .returns(TypeName.VOID)
         .build();

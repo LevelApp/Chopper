@@ -13,22 +13,22 @@ import com.levelapp.annotation.chopperable.ChopperableOnStop;
 public class NoBetterProguardFactory implements BetterProguardFactory {
 
   @Override
-  public BetterProguard onPause() {
-    return new NoBetterProguard<ChopperableOnPause>() {};
+  public BetterProguard chopperableOnPause() {
+    return new NoBetterProguard<ChopperableOnPause>(ChopperableOnPause.class) {};
   }
 
   @Override
-  public BetterProguard onStop() {
-    return new NoBetterProguard<ChopperableOnStop>() {};
+  public BetterProguard chopperableOnStop() {
+    return new NoBetterProguard<ChopperableOnStop>(ChopperableOnStop.class) {};
   }
 
   @Override
-  public BetterProguard onDestroyView() {
-    return new NoBetterProguard<ChopperableOnDestroyView>() {};
+  public BetterProguard chopperableOnDestroyView() {
+    return new NoBetterProguard<ChopperableOnDestroyView>(ChopperableOnDestroyView.class) {};
   }
 
   @Override
-  public BetterProguard onDestroy() {
-    return new NoBetterProguard<ChopperableOnDestroy>() {};
+  public BetterProguard chopperableOnDestroy() {
+    return new NoBetterProguard<ChopperableOnDestroy>(ChopperableOnDestroy.class) {};
   }
 }

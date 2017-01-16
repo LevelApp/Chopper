@@ -2,7 +2,7 @@ package com.levelapp.annotation;
 
 import com.levelapp.annotation.betterproguard.BetterProguard;
 import com.levelapp.annotation.betterproguard.BetterProguardFactory;
-import com.levelapp.annotation.betterproguard.NoBetterProguard;
+import com.levelapp.annotation.betterproguard.NoBetterProguardFactory;
 import com.levelapp.annotation.chopperable.Chopperable;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class Chopper {
   private static final Map<Class, Chopperable> CLASS_MAPPER = new HashMap<>();
   private static final Map<Class<? extends Chopperable>, Chopperable> CHOPPERABLE_MAPPER = new HashMap<Class<? extends Chopperable>, Chopperable>();
 
-  private static BetterProguardFactory betterProguardFactory;
+  private static BetterProguardFactory betterProguardFactory = new NoBetterProguardFactory();
 
   /**
    * Provide factory method to get minified Chopperable class
@@ -37,26 +37,26 @@ public class Chopper {
   @SuppressWarnings("Used by target application")
   public static void onPause(Object object) {
     Chopperable chopperable = safeChopperClass(object, Lifecycle.PAUSE);
-    chopp(object, chopperable);
+    chopp(object, chopperable, Lifecycle.PAUSE);
   }
 
   public static void onStop(Object object) {
     Chopperable chopperable = safeChopperClass(object, Lifecycle.STOP);
-    chopp(object, chopperable);
+    chopp(object, chopperable, Lifecycle.STOP);
   }
 
   public static void onDestroyView(Object object) {
     Chopperable chopperable = safeChopperClass(object, Lifecycle.DESTROY_VIEW);
-    chopp(object, chopperable);
+    chopp(object, chopperable, Lifecycle.DESTROY_VIEW);
   }
 
   public static void onDestroy(Object object) {
     Chopperable chopperable = safeChopperClass(object, Lifecycle.DESTROY);
-    chopp(object, chopperable);
+    chopp(object, chopperable, Lifecycle.DESTROY);
   }
 
-  private static void chopp(Object object, Chopperable chopperable) {
-    chopperable.chopp(object, object);
+  private static void chopp(Object object, Chopperable chopperable, Lifecycle lifecycle) {
+    chopperable.chopp(object, object, lifecycle);
   }
 
   private static Chopperable safeChopperClass(Object object, Lifecycle lifecycle) {
@@ -66,16 +66,16 @@ public class Chopper {
       BetterProguard betterProguard = null;
       switch (lifecycle){
         case PAUSE:
-          betterProguard = betterProguardFactory.onPause();
+          betterProguard = betterProguardFactory.chopperableOnPause();
           break;
         case STOP:
-          betterProguard = betterProguardFactory.onStop();
+          betterProguard = betterProguardFactory.chopperableOnStop();
           break;
         case DESTROY_VIEW:
-          betterProguard = betterProguardFactory.onDestroyView();
+          betterProguard = betterProguardFactory.chopperableOnDestroyView();
           break;
         case DESTROY:
-          betterProguard = betterProguardFactory.onDestroy();
+          betterProguard = betterProguardFactory.chopperableOnDestroy();
           break;
       }
       Chopperable chopperable = betterProguard.getFactory(object);

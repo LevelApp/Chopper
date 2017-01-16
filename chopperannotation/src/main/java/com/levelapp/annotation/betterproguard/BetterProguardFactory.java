@@ -5,8 +5,8 @@ package com.levelapp.annotation.betterproguard;
  */
 
 public interface BetterProguardFactory {
-  BetterProguard onPause();
-  BetterProguard onStop();
-  BetterProguard onDestroyView();
-  BetterProguard onDestroy();
+  BetterProguard chopperableOnPause();
+  BetterProguard chopperableOnStop();
+  BetterProguard chopperableOnDestroyView();
+  BetterProguard chopperableOnDestroy();
 }

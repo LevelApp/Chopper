@@ -1,6 +1,8 @@
 package com.levelapp.annotation.betterproguard;
 
 import com.levelapp.annotation.chopperable.Chopperable;
+import com.levelapp.annotation.chopperable.EmptyChopperable;
+import sun.rmi.runtime.Log;
 
 /**
  * Created by rafaldziuryk on 13.01.17.
@@ -8,7 +10,11 @@ import com.levelapp.annotation.chopperable.Chopperable;
 
 public abstract class NoBetterProguard<T extends Chopperable> implements BetterProguard {
 
-  T suffix;
+  Class<T> clazz;
+
+  public NoBetterProguard(Class<T> clazz){
+    this.clazz = clazz;
+  }
 
   @Override
   public Chopperable getFactory(Object instance) {
@@ -30,7 +36,7 @@ public abstract class NoBetterProguard<T extends Chopperable> implements BetterP
   private String prepareClassName(Object object) {
     Class<?> clazz = object.getClass();
     String className = clazz.getCanonicalName();
-    className = className + "_" + suffix.getClass().getSimpleName();
+    className = className + "_" + this.clazz.getSimpleName();
     return className;
   }
 }

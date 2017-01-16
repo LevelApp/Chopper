@@ -7,9 +7,11 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.levelapp.annotation.annotations.ChoppOnPause;
 import com.levelapp.annotation.chopperable.ChainChopperable;
 import com.levelapp.annotation.Chopper;
 import com.levelapp.annotation.annotations.ChoppOnDestroy;
+import com.levelapp.betterproguard.BetterProguardFactoryImpl;
 import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnDestroy;
 import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnDestroyView;
 import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnPause;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
   @ChoppOnDestroy(RealmChopperable.class)
   Realm realm;
 
-  @ChoppOnDestroy(ChainChopperable.class)
+  @ChoppOnPause(ChainChopperable.class)
   ChainField chainField = new ChainField();
 
   @ChoppOnDestroy({DisposableChopperable.class /*, SomeOtherChopperable.class */})
@@ -110,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initChopper() {
-    Chopper
-        .init(new BetterProguardImpl_ChopperableOnPause(), new BetterProguardImpl_ChopperableOnStop(), new BetterProguardImpl_ChopperableOnDestroyView(), new BetterProguardImpl_ChopperableOnDestroy());
+//    Chopper.init(new BetterProguardFactoryImpl());
   }
 
   private void startRandom() {
