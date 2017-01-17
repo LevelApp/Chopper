@@ -1,9 +1,11 @@
 package com.levelapp.chopper;
 
+import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.chopperable.Chopperable;
 import com.levelapp.choppertest.dispose.Disposable;
 import com.levelapp.choppertest.dispose.DisposableChopperable;
 import com.levelapp.choppertest.dispose.DisposeElement;
+import com.levelapp.choppertest.dispose.DisposeField;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,10 +18,11 @@ public class DisposeUnitTest {
 
   @Test
   public void disposeSimpleTest() throws Exception {
+    DisposeField.disposed = false;
     Chopperable<Disposable, Object> chopper = new DisposableChopperable();
     DisposeElement disposeElement = new DisposeElement();
-    Assert.assertFalse(disposeElement.isDisposed());
-    chopper.chopp(disposeElement, this);
-    Assert.assertTrue(disposeElement.isDisposed());
+    Assert.assertFalse(DisposeField.disposed);
+    chopper.chopp(disposeElement, this, Lifecycle.PAUSE);
+    Assert.assertTrue(DisposeField.disposed);
   }
 }

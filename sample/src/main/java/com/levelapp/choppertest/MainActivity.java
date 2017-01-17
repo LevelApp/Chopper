@@ -8,6 +8,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.levelapp.annotation.annotations.ChoppOnPause;
+import com.levelapp.annotation.annotations.ChoppOnStop;
 import com.levelapp.annotation.chopperable.ChainChopperable;
 import com.levelapp.annotation.Chopper;
 import com.levelapp.annotation.annotations.ChoppOnDestroy;
@@ -42,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
   @BindView(R.id.Random_Text)
   TextView random;
 
-  @ChoppOnDestroy()
+  @ChoppOnDestroy
   Object object = new Object();
 
-  @ChoppOnDestroy(SubscriptionChopperable.class)
+  @ChoppOnStop(SubscriptionChopperable.class)
   Subscription subscription = Subscriptions.empty();
 
-  @ChoppOnDestroy(SubscriptionChopperable.class)
+  @ChoppOnStop(SubscriptionChopperable.class)
   CompositeSubscription compositeSubscription = new CompositeSubscription();
 
   @ChoppOnDestroy(ButterKnifeChopperable.class)
@@ -65,41 +66,27 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    Log.w("Lifecycle", getClass().getSimpleName() + "OnCreate" + hashCode());
     super.onCreate(savedInstanceState);
     initActivity();
   }
 
   @Override
+  protected void onPause() {
+    super.onPause();
+    Chopper.onPause(this);
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    Chopper.onStop(this);
+  }
+
+  @Override
   protected void onDestroy() {
-//    implement and call dispose()
-//    or just:
     Chopper.onDestroy(this);
     super.onDestroy();
   }
-
-//  private void dispose() {
-//    if (unbinder != null){
-//      unbinder.unbind();
-//    }
-//    unbinder = null;
-//    if (subscription != null && subscription.isUnsubscribed() == false){
-//      subscription.unsubscribe();
-//    }
-//    subscription = null;
-//    if (compositeSubscription != null && compositeSubscription.isUnsubscribed() == false){
-//      compositeSubscription.unsubscribe();
-//    }
-//    compositeSubscription = null;
-//    if (realm != null && realm.isClosed() == false){
-//      realm.close();
-//    }
-//    realm = null;
-//    if (disposeField != null){
-//      disposeField.dispose();
-//    }
-//    disposeField = null;
-//  }
 
   private void initActivity() {
     Realm.init(this);

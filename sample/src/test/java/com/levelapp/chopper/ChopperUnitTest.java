@@ -1,5 +1,6 @@
 package com.levelapp.chopper;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.levelapp.annotation.Chopper;
@@ -20,7 +21,7 @@ public class ChopperUnitTest {
   @Test
   public void chopperAllField() throws Exception {
     AllFieldToNull allFieldToNull = new AllFieldToNull("Test1", "Test2");
-    Chopper.chopp(allFieldToNull);
+    Chopper.onPause(allFieldToNull);
     assertTrue(allFieldToNull.s1 == null);
     assertTrue(allFieldToNull.s2 == null);
   }
@@ -28,22 +29,24 @@ public class ChopperUnitTest {
   @Test
   public void chopperSomeField() throws Exception {
     SomeFieldToNull someFieldToNull = new SomeFieldToNull("Test1", "Test2");
-    Chopper.chopp(someFieldToNull);
+    Chopper.onPause(someFieldToNull);
     assertTrue(someFieldToNull.s1 == null);
     assertTrue(someFieldToNull.s2 != null);
   }
 
   @Test
   public void chopperDisposableTest() throws Exception {
+    DisposeField.disposed = false;
     DisposeField disposeField = new DisposeField(new DisposeElement());
-    Chopper.chopp(disposeField);
-    assertTrue(disposeField.isDisposed());
+    assertFalse(DisposeField.disposed);
+    Chopper.onPause(disposeField);
+    assertTrue(DisposeField.disposed);
   }
 
   @Test
   public void chopperChainTest() throws Exception {
     ChainField chainField = new ChainField();
-    Chopper.chopp(chainField);
+    Chopper.onPause(chainField);
     assertTrue(chainField.isChopped());
   }
 }

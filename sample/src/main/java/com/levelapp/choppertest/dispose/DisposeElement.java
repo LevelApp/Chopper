@@ -6,15 +6,9 @@ package com.levelapp.choppertest.dispose;
 
 public class DisposeElement implements Disposable {
 
-  boolean isDisposed = false;
 
   @Override
   public void dispose() {
-    isDisposed = true;
-  }
-
-  @Override
-  public boolean isDisposed() {
-    return isDisposed;
+    DisposeField.disposed = true;
   }
 }

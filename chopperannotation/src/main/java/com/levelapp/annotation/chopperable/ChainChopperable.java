@@ -1,10 +1,7 @@
 package com.levelapp.annotation.chopperable;
 
-import static com.levelapp.annotation.Lifecycle.DESTROY;
-
 import com.levelapp.annotation.Chopper;
 import com.levelapp.annotation.Lifecycle;
-import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 09.01.17.

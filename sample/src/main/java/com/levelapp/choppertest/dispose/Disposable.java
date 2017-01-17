@@ -6,6 +6,4 @@ package com.levelapp.choppertest.dispose;
 
 public interface Disposable {
   void dispose();
-
-  boolean isDisposed();
 }

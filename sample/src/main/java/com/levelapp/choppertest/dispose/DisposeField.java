@@ -5,14 +5,12 @@ import com.levelapp.annotation.annotations.ChoppOnPause;
 
 public class DisposeField {
 
+    public static boolean disposed = false;
+
     @ChoppOnPause({DisposableChopperable.class})
     protected DisposeElement disposeElement;
 
     public DisposeField(DisposeElement disposeElement){
         this.disposeElement = disposeElement;
-    }
-
-    public boolean isDisposed(){
-        return disposeElement.isDisposed();
     }
 }

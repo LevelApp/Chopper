@@ -17,7 +17,6 @@ public class Chopper {
 
   public static final String CHOPPER_PROPERTY = "value";
 
-  private static final Map<Class, Chopperable> CLASS_MAPPER = new HashMap<>();
   private static final Map<Class<? extends Chopperable>, Chopperable> CHOPPERABLE_MAPPER = new HashMap<Class<? extends Chopperable>, Chopperable>();
 
   private static BetterProguardFactory betterProguardFactory = new NoBetterProguardFactory();
@@ -60,8 +59,8 @@ public class Chopper {
   }
 
   private static Chopperable safeChopperClass(Object object, Lifecycle lifecycle) {
-    if (CLASS_MAPPER.containsKey(object.getClass())) {
-      return CLASS_MAPPER.get(object.getClass());
+    if (lifecycle.contains(object.getClass())) {
+      return lifecycle.get(object.getClass());
     } else {
       BetterProguard betterProguard = null;
       switch (lifecycle){
@@ -79,7 +78,7 @@ public class Chopper {
           break;
       }
       Chopperable chopperable = betterProguard.getFactory(object);
-      CLASS_MAPPER.put(object.getClass(), chopperable);
+      lifecycle.put(object.getClass(), chopperable);
       return chopperable;
     }
   }
