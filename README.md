@@ -125,7 +125,7 @@ Other libraries support
   @ChoppOnX(chopper = {RealmResultChangeListenerChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrealm:0..0'
+  compile 'com.github.levelapp.Chopper:chopperrealm:0.9.0'
 ```
 
 Proguard
