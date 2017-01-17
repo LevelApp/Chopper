@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initChopper() {
-//    Chopper.init(new BetterProguardFactoryImpl());
+    Chopper.init(new BetterProguardFactoryImpl());
   }
 
   private void startRandom() {

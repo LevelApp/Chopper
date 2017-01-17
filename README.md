@@ -136,11 +136,11 @@ With `BetterProguardProcessor`
 
 Call `init()` before first call `Chopper`, e.g. in `Application`.
 With `BetterProguardProcessor` all classes can be fully minified.
-BetterProguardImpl_Chopperable will be created after first success build.
+BetterProguardFactoryImpl will be created after first success build.
 
 
 ```java
-  Chopper.init(new BetterProguardFactoryImpl_Chopperable());
+  Chopper.init(new BetterProguardFactoryImpl());
 ```
 
 
