@@ -64,7 +64,6 @@ You can use one of 4 lifecycle method.
   @ChoppOnDestroyView
   @ChoppOnDestroy
 ```
-```
 
 Download
 --------
