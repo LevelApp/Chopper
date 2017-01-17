@@ -6,30 +6,64 @@ code for you.
 
 ```java
 class ExampleActivity extends Activity {
-  @Chopp(chopper = {SubscriptionChopperable.class})
+  @ChoppOnDestroy
+  Object object = new Object();
+
+  @ChoppOnStop(SubscriptionChopperable.class)
   Subscription subscription = Subscriptions.empty();
 
-  @Chopp(chopper = {SubscriptionChopperable.class})
+  @ChoppOnStop(SubscriptionChopperable.class)
   CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-  @Chopp(chopper = {ButterKnifeChopperable.class})
+  @ChoppOnDestroy(ButterKnifeChopperable.class)
   Unbinder unbinder;
 
-  @Chopp(chopper = RealmChopperable.class)
+  @ChoppOnDestroy(RealmChopperable.class)
   Realm realm;
 
-  @Chopp(chopper = ChainChopperable.class)
+  @ChoppOnPause(ChainChopperable.class)
   ChainField chainField = new ChainField();
 
-  @Chopp(chopper = {DisposableChopperable.class /*, SomeOtherChopperable.class */})
+  @ChoppOnDestroy({DisposableChopperable.class /*, SomeOtherChopperable.class */})
   DisposeElement disposeField = new DisposeElement();
-  
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    initActivity();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    Chopper.onPause(this);
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    Chopper.onStop(this);
+  }
+
   @Override
   protected void onDestroy() {
+    Chopper.onDestroy(this);
     super.onDestroy();
-    Chopper.chopp(this);
   }
 }
+```
+
+Lifecycle
+--------
+
+You can use one of 4 lifecycle method. 
+
+```java
+  @ChoppOnPause
+  @ChoppOnStop
+  @ChoppOnDestroyView
+  @ChoppOnDestroy
+```
 ```
 
 Download
@@ -37,8 +71,8 @@ Download
 
 ```groovy
 dependencies {
-  compile 'com.github.levelapp.Chopper:chopperannotation:0.8.0'
-  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.8.0'
+  compile 'com.github.levelapp.Chopper:chopperannotation:0.9.0'
+  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:0.9.0'
 }
 
 allprojects {
@@ -51,11 +85,11 @@ allprojects {
 Android support
 --------
 ```java
-  @Chopp(chopper = {BroadcastReceiverChopperable.class})
-  @Chopp(chopper = {RecyclerViewChopperable.class})
+  @ChoppOnX(BroadcastReceiverChopperable.class)
+  @ChoppOnX(RecyclerViewChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperandroid:0.8.0'
+  compile 'com.github.levelapp.Chopper:chopperandroid:0.9.0'
 ```
 
 Other libraries support
@@ -63,36 +97,36 @@ Other libraries support
 
 * ButterKnife
 ```java
-  @Chopp(chopper = {ButterKnifeChopperable.class})
+  @ChoppOnX(ButterKnifeChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperbutterknife:0.8.0'
+  compile 'com.github.levelapp.Chopper:chopperbutterknife:0.9.0'
 ```
 
 * RxJava
 ```java
-  @Chopp(chopper = {SubscriptionChopperable.class})
+  @ChoppOnX(SubscriptionChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava:0.8.0'
+  compile 'com.github.levelapp.Chopper:chopperrxjava:0.9.0'
 ```
 
 * RxJava2
 ```java
-  @Chopp(chopper = {SubscriptionChopperable.class})
+  @ChoppOnX(SubscriptionChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava2:0.8.0'
+  compile 'com.github.levelapp.Chopper:chopperrxjava2:0.9.0'
 ```
 
 * Realm
 ```java
-  @Chopp(chopper = {RealmChopperable.class})
-  @Chopp(chopper = {RealmObjectChangeListenerChopperable.class})
-  @Chopp(chopper = {RealmResultChangeListenerChopperable.class})
+  @ChoppOnX(chopper = {RealmChopperable.class})
+  @ChoppOnX(chopper = {RealmObjectChangeListenerChopperable.class})
+  @ChoppOnX(chopper = {RealmResultChangeListenerChopperable.class})
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrealm:0.8.0'
+  compile 'com.github.levelapp.Chopper:chopperrealm:0..0'
 ```
 
 Proguard
@@ -107,7 +141,7 @@ BetterProguardImpl_Chopperable will be created after first success build.
 
 
 ```java
-  Chopper.init(new BetterProguardImpl_Chopperable());
+  Chopper.init(new BetterProguardFactoryImpl_Chopperable());
 ```
 
 
@@ -123,6 +157,9 @@ Without `BetterProguardProcessor`
     @com.levelapp.annotation.* <fields>;
 }
 -keepnames class * { @com.levelapp.annotation.annotations.ChoppOnPause *;}
+-keepnames class * { @com.levelapp.annotation.annotations.ChoppOnStop *;}
+-keepnames class * { @com.levelapp.annotation.annotations.ChoppOnDestroyView *;}
+-keepnames class * { @com.levelapp.annotation.annotations.ChoppOnDestroy *;}
 ```
 
 
@@ -136,7 +173,7 @@ Create own `Chopperable` implementation to destroy object in right way
 public class DisposableChopperable implements Chopperable<Disposable, Object> {
 
   @Override
-  public void chopp(Disposable target, Object enclosed) {
+  public void chopp(Disposable target, Object enclosed, Lifecycle lifecycle) {
     if (target != null){
       target.dispose();
     }
