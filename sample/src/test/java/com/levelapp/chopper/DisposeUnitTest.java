@@ -1,6 +1,5 @@
 package com.levelapp.chopper;
 
-import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.chopperable.Chopperable;
 import com.levelapp.choppertest.dispose.Disposable;
 import com.levelapp.choppertest.dispose.DisposableChopperable;
@@ -22,7 +21,7 @@ public class DisposeUnitTest {
     Chopperable<Disposable, Object> chopper = new DisposableChopperable();
     DisposeElement disposeElement = new DisposeElement();
     Assert.assertFalse(DisposeField.disposed);
-    chopper.chopp(disposeElement, this, Lifecycle.PAUSE);
+    chopper.chopp(disposeElement, this);
     Assert.assertTrue(DisposeField.disposed);
   }
 }

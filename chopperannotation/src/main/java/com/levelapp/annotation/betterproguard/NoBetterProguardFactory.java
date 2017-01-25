@@ -1,34 +1,39 @@
 package com.levelapp.annotation.betterproguard;
 
-import com.levelapp.annotation.chopperable.Chopperable;
-import com.levelapp.annotation.chopperable.ChopperableOnDestroy;
-import com.levelapp.annotation.chopperable.ChopperableOnDestroyView;
-import com.levelapp.annotation.chopperable.ChopperableOnPause;
-import com.levelapp.annotation.chopperable.ChopperableOnStop;
+import com.levelapp.annotation.Lifecycler;
 
 /**
- * Created by rafaldziuryk on 15.01.17.
+ * Created by rafaldziuryk on 13.01.17.
  */
 
-public class NoBetterProguardFactory implements BetterProguardFactory {
+public class NoBetterProguardFactory<T extends Lifecycler> implements BetterProguard {
 
-  @Override
-  public BetterProguard chopperableOnPause() {
-    return new NoBetterProguard<ChopperableOnPause>(ChopperableOnPause.class) {};
+  Class<T> clazz;
+
+  public NoBetterProguardFactory(Class<T> clazz){
+    this.clazz = clazz;
   }
 
   @Override
-  public BetterProguard chopperableOnStop() {
-    return new NoBetterProguard<ChopperableOnStop>(ChopperableOnStop.class) {};
+  public Lifecycler getFactory(Class clazz) {
+    String className = prepareClassName(clazz);
+    try {
+      Lifecycler lifecycler = (Lifecycler) Class.forName(className).newInstance();
+      return lifecycler;
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
-  @Override
-  public BetterProguard chopperableOnDestroyView() {
-    return new NoBetterProguard<ChopperableOnDestroyView>(ChopperableOnDestroyView.class) {};
-  }
 
-  @Override
-  public BetterProguard chopperableOnDestroy() {
-    return new NoBetterProguard<ChopperableOnDestroy>(ChopperableOnDestroy.class) {};
+  private String prepareClassName(Class<?> object) {
+    String className = object.getCanonicalName();
+    className = className + "_" + this.clazz.getSimpleName();
+    return className;
   }
 }

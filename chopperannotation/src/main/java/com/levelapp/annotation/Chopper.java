@@ -1,7 +1,9 @@
 package com.levelapp.annotation;
 
+//import com.levelapp.annotation.betterproguard.BetterProguard;
+import android.os.Bundle;
 import com.levelapp.annotation.betterproguard.BetterProguard;
-import com.levelapp.annotation.betterproguard.BetterProguardFactory;
+//import com.levelapp.annotation.betterproguard.NoBetterProguardFactory;
 import com.levelapp.annotation.betterproguard.NoBetterProguardFactory;
 import com.levelapp.annotation.chopperable.Chopperable;
 import java.util.HashMap;
@@ -17,14 +19,15 @@ public class Chopper {
 
   public static final String CHOPPER_PROPERTY = "value";
 
-  private static final Map<Class<? extends Chopperable>, Chopperable> CHOPPERABLE_MAPPER = new HashMap<Class<? extends Chopperable>, Chopperable>();
+  private static final Map<Class<? extends Chopperable>, Chopperable> CHOPPERABLE_MAPPER = new HashMap<>();
+  private static final Map<Class<?>, Lifecycler> LIFECYCLER_MAP = new HashMap<>();
 
-  private static BetterProguardFactory betterProguardFactory = new NoBetterProguardFactory();
+  private static BetterProguard betterProguardFactory = new NoBetterProguardFactory(Chopperable.class);
 
   /**
    * Provide factory method to get minified Chopperable class
    */
-  public static void init(BetterProguardFactory betterProguardFactory) {
+  public static void init(BetterProguard betterProguardFactory) {
     Chopper.betterProguardFactory = betterProguardFactory;
   }
 
@@ -34,52 +37,99 @@ public class Chopper {
    * @param object object to kill!
    */
   @SuppressWarnings("Used by target application")
-  public static void onPause(Object object) {
-    Chopperable chopperable = safeChopperClass(object, Lifecycle.PAUSE);
-    chopp(object, chopperable, Lifecycle.PAUSE);
+  public static void onCreate(Object object, Bundle bundle) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onCreate(object, object, bundle);
+    lifecycler.chopp(object, object);
   }
 
-  public static void onStop(Object object) {
-    Chopperable chopperable = safeChopperClass(object, Lifecycle.STOP);
-    chopp(object, chopperable, Lifecycle.STOP);
+  @SuppressWarnings("Used by target application")
+  public static void onStart(Object object) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onStart(object, object);
+    lifecycler.chopp(object, object);
   }
 
-  public static void onDestroyView(Object object) {
-    Chopperable chopperable = safeChopperClass(object, Lifecycle.DESTROY_VIEW);
-    chopp(object, chopperable, Lifecycle.DESTROY_VIEW);
+  @SuppressWarnings("Used by target application")
+  public static void onResume(Object object) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onResume(object, object);
+    lifecycler.chopp(object, object);
   }
 
-  public static void onDestroy(Object object) {
-    Chopperable chopperable = safeChopperClass(object, Lifecycle.DESTROY);
-    chopp(object, chopperable, Lifecycle.DESTROY);
+  @SuppressWarnings("Used by target application")
+  public static void onPause  (Object object) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onPause(object, object);
+    lifecycler.chopp(object, object);
   }
 
-  private static void chopp(Object object, Chopperable chopperable, Lifecycle lifecycle) {
-    chopperable.chopp(object, object, lifecycle);
+  @SuppressWarnings("Used by target application")
+  public static void onStop  (Object object) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onStop(object, object);
+    lifecycler.chopp(object, object);
   }
 
-  private static Chopperable safeChopperClass(Object object, Lifecycle lifecycle) {
-    if (lifecycle.contains(object.getClass())) {
-      return lifecycle.get(object.getClass());
+  @SuppressWarnings("Used by target application")
+  public static void onDestroy  (Object object) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onDestroy(object, object);
+    lifecycler.chopp(object, object);
+  }
+
+  @SuppressWarnings("Used by target application")
+  public static void onSaveState  (Object object, Bundle bundle) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onSaveInstanceState(object, object, bundle);
+    lifecycler.chopp(object, object);
+  }
+
+  @SuppressWarnings("Used by target application")
+  public static void onRestoreState (Object object, Bundle bundle) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onRestoreInstanceState(object, object, bundle);
+    lifecycler.chopp(object, object);
+  }
+
+  @SuppressWarnings("Used by target application")
+  public static void onDestroyView (Object object, Bundle bundle) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onDestroyView(object, object);
+    lifecycler.chopp(object, object);
+  }
+
+  @SuppressWarnings("Used by target application")
+  public static void onCreateView (Object object, Bundle bundle) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onCreateView(object, object, bundle);
+    lifecycler.chopp(object, object);
+  }
+
+  @SuppressWarnings("Used by target application")
+  public static void onDestroyView (Object object) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.onDestroyView(object, object);
+    lifecycler.chopp(object, object);
+  }
+
+  @SuppressWarnings("Used by target application")
+  public static void chopp (Object object) {
+    Lifecycler lifecycler = safeChopperObject(object);
+    lifecycler.chopp(object, object);
+  }
+
+  public static Lifecycler safeChopperObject(Object object) {
+    return safeChopperClass(object.getClass());
+  }
+
+  public static Lifecycler safeChopperClass(Class<?> object) {
+    if (LIFECYCLER_MAP.containsKey(object)) {
+      return LIFECYCLER_MAP.get(object);
     } else {
-      BetterProguard betterProguard = null;
-      switch (lifecycle){
-        case PAUSE:
-          betterProguard = betterProguardFactory.chopperableOnPause();
-          break;
-        case STOP:
-          betterProguard = betterProguardFactory.chopperableOnStop();
-          break;
-        case DESTROY_VIEW:
-          betterProguard = betterProguardFactory.chopperableOnDestroyView();
-          break;
-        case DESTROY:
-          betterProguard = betterProguardFactory.chopperableOnDestroy();
-          break;
-      }
-      Chopperable chopperable = betterProguard.getFactory(object);
-      lifecycle.put(object.getClass(), chopperable);
-      return chopperable;
+      Lifecycler lifecycle = betterProguardFactory.getFactory(object);
+      LIFECYCLER_MAP.put(object, lifecycle);
+      return lifecycle;
     }
   }
 

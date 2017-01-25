@@ -1,6 +1,5 @@
 package com.levelapp.choppertest.dispose;
 
-import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
@@ -10,7 +9,7 @@ import com.levelapp.annotation.chopperable.Chopperable;
 public class DisposableChopperable implements Chopperable<Disposable, Object> {
 
   @Override
-  public void chopp(Disposable target, Object enclosed, Lifecycle lifecycle) {
+  public void chopp(Disposable target, Object enclosed) {
     if (target != null){
       target.dispose();
     }

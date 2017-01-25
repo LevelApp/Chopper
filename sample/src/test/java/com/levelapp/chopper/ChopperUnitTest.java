@@ -21,7 +21,7 @@ public class ChopperUnitTest {
   @Test
   public void chopperAllField() throws Exception {
     AllFieldToNull allFieldToNull = new AllFieldToNull("Test1", "Test2");
-    Chopper.onPause(allFieldToNull);
+    Chopper.chopp(allFieldToNull);
     assertTrue(allFieldToNull.s1 == null);
     assertTrue(allFieldToNull.s2 == null);
   }
@@ -29,7 +29,7 @@ public class ChopperUnitTest {
   @Test
   public void chopperSomeField() throws Exception {
     SomeFieldToNull someFieldToNull = new SomeFieldToNull("Test1", "Test2");
-    Chopper.onPause(someFieldToNull);
+    Chopper.chopp(someFieldToNull);
     assertTrue(someFieldToNull.s1 == null);
     assertTrue(someFieldToNull.s2 != null);
   }
@@ -39,14 +39,14 @@ public class ChopperUnitTest {
     DisposeField.disposed = false;
     DisposeField disposeField = new DisposeField(new DisposeElement());
     assertFalse(DisposeField.disposed);
-    Chopper.onPause(disposeField);
+    Chopper.chopp(disposeField);
     assertTrue(DisposeField.disposed);
   }
 
   @Test
   public void chopperChainTest() throws Exception {
     ChainField chainField = new ChainField();
-    Chopper.onPause(chainField);
+    Chopper.chopp(chainField);
     assertTrue(chainField.isChopped());
   }
 }

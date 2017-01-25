@@ -3,14 +3,13 @@ package com.levelapp.chopper;
 import static org.junit.Assert.assertTrue;
 
 import com.levelapp.annotation.Chopper;
-import com.levelapp.annotation.Lifecycle;
 import com.levelapp.choppertest.dispose.DisposeElement;
 import com.levelapp.choppertest.inheritance.DetailFieldNull;
 import com.levelapp.choppertest.inheritance.VeryBaseFieldNull;
 import com.levelapp.choppertest.nullcheck.AllFieldToNull;
-import com.levelapp.choppertest.nullcheck.AllFieldToNull_ChopperableOnPause;
+import com.levelapp.choppertest.nullcheck.AllFieldToNull_Chopperable;
 import com.levelapp.choppertest.nullcheck.SomeFieldToNull;
-import com.levelapp.choppertest.nullcheck.SomeFieldToNull_ChopperableOnPause;
+import com.levelapp.choppertest.nullcheck.SomeFieldToNull_Chopperable;
 import org.junit.Test;
 
 /**
@@ -23,8 +22,8 @@ public class NullUnitTest {
   @Test
   public void nullCheckAllFieldTest() throws Exception {
     AllFieldToNull allFieldToNull = new AllFieldToNull("Test1", "Test2");
-    AllFieldToNull_ChopperableOnPause chopper = new AllFieldToNull_ChopperableOnPause();
-    chopper.chopp(allFieldToNull, this, Lifecycle.PAUSE);
+    AllFieldToNull_Chopperable chopper = new AllFieldToNull_Chopperable();
+    chopper.chopp(allFieldToNull, this);
     assertTrue(allFieldToNull.s1 == null);
     assertTrue(allFieldToNull.s2 == null);
   }
@@ -32,8 +31,8 @@ public class NullUnitTest {
   @Test
   public void nullCheckSomeFieldTest() throws Exception {
     SomeFieldToNull someFieldToNull = new SomeFieldToNull("Test1", "Test2");
-    SomeFieldToNull_ChopperableOnPause chopper = new SomeFieldToNull_ChopperableOnPause();
-    chopper.chopp(someFieldToNull, this, Lifecycle.PAUSE);
+    SomeFieldToNull_Chopperable chopper = new SomeFieldToNull_Chopperable();
+    chopper.chopp(someFieldToNull, this);
     assertTrue(someFieldToNull.s1 == null);
     assertTrue(someFieldToNull.s2 != null);
   }

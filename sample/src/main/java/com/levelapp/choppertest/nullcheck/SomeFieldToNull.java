@@ -1,10 +1,10 @@
 package com.levelapp.choppertest.nullcheck;
 
-import com.levelapp.annotation.annotations.ChoppOnPause;
+import com.levelapp.annotation.annotations.Chopp;
 
 
 public class SomeFieldToNull {
-    @ChoppOnPause
+    @Chopp
     public String s1;
     public String s2;
 

@@ -1,7 +1,6 @@
 package com.levelapp.chopperandroid;
 
 import android.support.v7.widget.RecyclerView;
-import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
@@ -11,7 +10,7 @@ import com.levelapp.annotation.chopperable.Chopperable;
 public class RecyclerViewChopperable implements Chopperable<RecyclerView, Object> {
 
   @Override
-  public void chopp(RecyclerView target, Object enclosed, Lifecycle lifecycle) {
+  public void chopp(RecyclerView target, Object enclosed) {
     if (target != null){
       target.setAdapter(null);
     }

@@ -2,7 +2,6 @@ package com.levelapp.chopperandroid;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
@@ -12,7 +11,7 @@ import com.levelapp.annotation.chopperable.Chopperable;
 public class BroadcastReceiverChopperable implements Chopperable<BroadcastReceiver, Context> {
 
   @Override
-  public void chopp(BroadcastReceiver target, Context enclosed, Lifecycle lifecycle) {
+  public void chopp(BroadcastReceiver target, Context enclosed) {
     if (enclosed != null && target != null){
       try {
         enclosed.unregisterReceiver(target);

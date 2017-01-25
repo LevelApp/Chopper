@@ -1,23 +1,19 @@
 package com.levelapp.processor;
 
 import com.google.auto.service.AutoService;
-import com.levelapp.annotation.Lifecycle;
-import com.levelapp.annotation.annotations.ChoppOnDestroy;
-import com.levelapp.annotation.annotations.ChoppOnDestroyView;
-import com.levelapp.annotation.annotations.ChoppOnPause;
 import com.levelapp.annotation.Chopper;
+import com.levelapp.annotation.EmptyLifecycler;
+import com.levelapp.annotation.LifecycleProperty;
+import com.levelapp.annotation.annotations.Chopp;
 import com.levelapp.annotation.chopperable.Chopperable;
-import com.levelapp.annotation.annotations.ChoppOnStop;
-import com.levelapp.annotation.chopperable.ChopperableOnDestroy;
-import com.levelapp.annotation.chopperable.ChopperableOnDestroyView;
-import com.levelapp.annotation.chopperable.ChopperableOnPause;
-import com.levelapp.annotation.chopperable.ChopperableOnStop;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,9 +36,12 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
 
 @AutoService(Processor.class)
 public class ChopperProcessor extends AbstractProcessor {
+
+  private static final Kind KIND_LOG = Kind.WARNING;
 
   private Messager messager;
 
@@ -58,10 +57,9 @@ public class ChopperProcessor extends AbstractProcessor {
   @Override
   public Set<String> getSupportedAnnotationTypes() {
     Set<String> annotations = new HashSet<>();
-    annotations.add(ChoppOnPause.class.getCanonicalName());
-    annotations.add(ChoppOnStop.class.getCanonicalName());
-    annotations.add(ChoppOnDestroyView.class.getCanonicalName());
-    annotations.add(ChoppOnDestroy.class.getCanonicalName());
+    for (LifecycleProperty property : LifecycleProperty.values()) {
+      annotations.add(property.getAnnotation().getCanonicalName());
+    }
     return annotations;
   }
 
@@ -73,29 +71,28 @@ public class ChopperProcessor extends AbstractProcessor {
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-    makeChopperForAnnotation(roundEnv, ChoppOnPause.class, ChopperableOnPause.class);
-    makeChopperForAnnotation(roundEnv, ChoppOnStop.class, ChopperableOnStop.class);
-    makeChopperForAnnotation(roundEnv, ChoppOnDestroyView.class, ChopperableOnDestroyView.class);
-    makeChopperForAnnotation(roundEnv, ChoppOnDestroy.class, ChopperableOnDestroy.class);
-
-    BetterProguardFactoryProcessor betterProguardFactoryProcessor = new BetterProguardFactoryProcessor();
-    betterProguardFactoryProcessor.generateBetterProguard(processingEnvironment);
+    messager.printMessage(KIND_LOG, "Starting generate Chopperable classes");
+    makeChopperForAnnotation(roundEnv);
 
     return true;
   }
 
-  private void makeChopperForAnnotation(RoundEnvironment roundEnv,
-      Class<? extends Annotation> annotationClass, Class<?> interfaceClass) {
+  private void makeChopperForAnnotation(RoundEnvironment roundEnv) {
     Map<TypeElement, AnnotatedFields> annotatedFieldSet = new HashMap<>();
-    prepareSimpleMap(roundEnv, annotatedFieldSet, annotationClass);
+    messager.printMessage(KIND_LOG, "Preparing field set");
+    for (LifecycleProperty property : LifecycleProperty.values()) {
+      prepareSimpleMap(roundEnv, annotatedFieldSet, property.getAnnotation());
+    }
+    messager.printMessage(KIND_LOG, "Preparing inheritance set");
     prepareInheritanceMap(annotatedFieldSet);
     try {
-      generate(annotatedFieldSet, interfaceClass);
+      messager.printMessage(KIND_LOG, "Start generating classes");
+      generate(annotatedFieldSet);
     } catch (IOException e) {
       messager.printMessage(Diagnostic.Kind.ERROR, "Couldn't generate class");
     }
 
-    BetterProguardProcessor betterProguard = new BetterProguardProcessor(interfaceClass, Chopperable.class);
+    BetterProguardProcessor betterProguard = new BetterProguardProcessor();
     betterProguard.generateBetterProguard(annotatedFieldSet.keySet(), processingEnvironment);
   }
 
@@ -105,8 +102,27 @@ public class ChopperProcessor extends AbstractProcessor {
         Types types = processingEnvironment.getTypeUtils();
         TypeMirror baseMirror = entryBase.getKey().asType();
         TypeMirror checkMirror = entryCheck.getKey().asType();
-        if (types.isSubtype(baseMirror, checkMirror)) {
-          entryBase.getValue().addVariableElement(entryCheck.getValue().variableElements);
+        if (types.isSubtype(baseMirror, checkMirror) && !types
+            .isSameType(baseMirror, checkMirror)) {
+          for (LifecycleProperty property : LifecycleProperty.values()) {
+            List<VariableElement> baseVariable = entryBase.getValue().variableElements
+                .get(property.getAnnotation());
+            List<VariableElement> checkVariable = entryCheck.getValue().variableElements
+                .get(property.getAnnotation());
+            if (checkVariable == null) {
+              continue;
+            }
+            if (baseVariable == null) {
+              List<VariableElement> newVariables = new ArrayList<>();
+              entryBase.getValue().variableElements.put(property.getAnnotation(), newVariables);
+              baseVariable = newVariables;
+            }
+            baseVariable.addAll(checkVariable);
+            messager.printMessage(KIND_LOG,
+                "For `" + entryBase.getKey().getSimpleName() + " ` element add `" + entryCheck
+                    .getKey().getSimpleName() + "` variables by inheritance for `" + property
+                    .getAnnotation().getSimpleName() + "` annotation");
+          }
         }
       }
     }
@@ -128,7 +144,11 @@ public class ChopperProcessor extends AbstractProcessor {
         }
 
         AnnotatedFields fields = annotatedFieldSet.get(classElement);
-        fields.addVariableElement(variableElement);
+        fields.addVariableElement(variableElement, annotation);
+        fields.addVariableElement(variableElement, Chopp.class);
+        messager.printMessage(KIND_LOG,
+            "For `" + classElement.getSimpleName() + " ` element add `" + variableElement
+                .getSimpleName() + "` to `" + annotation.getSimpleName() + "` Annotation");
       } catch (Throwable e) {
         String message = String.format("Couldn't process class %s: %s", variableElement,
             e.getMessage());
@@ -138,15 +158,17 @@ public class ChopperProcessor extends AbstractProcessor {
     }
   }
 
-  private void generate(Map<TypeElement, AnnotatedFields> classList, Class<?> intefaceClass) throws IOException {
+  private void generate(Map<TypeElement, AnnotatedFields> classList) throws IOException {
     if (null == classList || classList.size() == 0) {
       return;
     }
 
     for (Entry<TypeElement, AnnotatedFields> entry : classList.entrySet()) {
+      messager
+          .printMessage(KIND_LOG, "Start generating `" + entry.getKey().getSimpleName() + "`class");
       String packageName = processingEnvironment.getElementUtils().getPackageOf(entry.getKey())
           .getQualifiedName().toString();
-      TypeSpec generateClass = generateClass(entry, intefaceClass);
+      TypeSpec generateClass = generateClass(entry);
 
       JavaFile javaFile = JavaFile.builder(packageName, generateClass).build();
       javaFile.writeTo(processingEnv.getFiler());
@@ -178,42 +200,62 @@ public class ChopperProcessor extends AbstractProcessor {
     return annotatedField.asType().getKind().isPrimitive();
   }
 
-  public TypeSpec generateClass(final Entry<TypeElement, AnnotatedFields> entry, Class<?> annotatedClass) {
+  public TypeSpec generateClass(final Entry<TypeElement, AnnotatedFields> entry) {
     TypeSpec.Builder builder = TypeSpec
-        .classBuilder(entry.getValue().typeElement.getSimpleName() + "_" + annotatedClass.getSimpleName())
-        .addSuperinterface(Chopperable.class)
+        .classBuilder(
+            entry.getValue().typeElement.getSimpleName() + "_" + Chopperable.class.getSimpleName())
+        .superclass(EmptyLifecycler.class)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
-    builder.addMethod(letRollNuller(entry));
-    builder.addMethod(letRollChoppers(entry));
-    builder.addMethod(chopp());
+
+    for (LifecycleProperty property : LifecycleProperty.values()) {
+      List<VariableElement> variables = entry.getValue().variableElements
+          .get(property.getAnnotation());
+      if (variables != null && !variables.isEmpty()) {
+        messager.printMessage(KIND_LOG,
+            "Start generating `" + property.getMethodName() + "` method for `" + entry.getKey()
+                .getSimpleName() + "`class");
+        builder.addMethod(letRollChoppers(entry, property));
+      }
+    }
     return builder.build();
   }
 
-  private MethodSpec letRollChoppers(Entry<TypeElement, AnnotatedFields> entry) {
+  private MethodSpec letRollChoppers(Entry<TypeElement, AnnotatedFields> entry,
+      LifecycleProperty property) {
     StringBuilder builder = new StringBuilder();
     castInstance(entry, builder);
-    builder.append(Chopperable.class.getSimpleName());
+    builder.append(Chopperable.class.getCanonicalName());
     builder.append(" chopper;");
     builder.append(System.getProperty("line.separator"));
-    iterateVariables(entry, builder);
+    iterateVariables(entry.getValue().variableElements.get(property.getAnnotation()), builder);
 
-    return MethodSpec.methodBuilder("chopper")
+    List<ParameterSpec> parameterSpecs = new ArrayList<>();
+    for (Map.Entry<Class<?>, String> parameterEntry : property.getParameters().entrySet()) {
+      ParameterSpec parameterSpec = ParameterSpec
+          .builder(parameterEntry.getKey(), parameterEntry.getValue()).build();
+      parameterSpecs.add(parameterSpec);
+    }
+
+    return MethodSpec.methodBuilder(property.getMethodName())
         .addJavadoc("set null to every field annotated with @Chopp")
         .addModifiers(Modifier.PUBLIC)
+        .addAnnotation(Override.class)
         .addStatement(builder.toString())
         .addParameter(TypeName.OBJECT, "instance")
         .addParameter(TypeName.OBJECT, "enclosed")
-        .addParameter(Lifecycle.class, "lifecycle")
+        .addParameters(parameterSpecs)
         .returns(TypeName.VOID)
         .build();
   }
 
-  private void iterateVariables(Entry<TypeElement, AnnotatedFields> entry, StringBuilder builder) {
-    for (VariableElement variableElement : entry.getValue().variableElements) {
-      for (AnnotationMirror annotationMirror : variableElement.getAnnotationMirrors()) {
-        Map<? extends ExecutableElement, ? extends AnnotationValue> map = annotationMirror
-            .getElementValues();
-        choppVariableByAllChoppers(builder, variableElement, map);
+  private void iterateVariables(List<VariableElement> variableElements, StringBuilder builder) {
+    if (variableElements != null) {
+      for (VariableElement variableElement : variableElements) {
+        for (AnnotationMirror annotationMirror : variableElement.getAnnotationMirrors()) {
+          Map<? extends ExecutableElement, ? extends AnnotationValue> map = annotationMirror
+              .getElementValues();
+          choppVariableByAllChoppers(builder, variableElement, map);
+        }
       }
     }
   }
@@ -228,7 +270,11 @@ public class ChopperProcessor extends AbstractProcessor {
           List<Object> annotatedClasses = (List<Object>) chopper.getValue();
           choppBySingleChopper(builder, variableElement, annotatedClasses);
         }
+
       }
+    }
+    if (!isFinal(variableElement)) {
+      choppByNull(builder, variableElement);
     }
   }
 
@@ -246,34 +292,15 @@ public class ChopperProcessor extends AbstractProcessor {
       builder.append("chopper.chopp(");
       builder.append("element.");
       builder.append(variableElement.getSimpleName());
-      builder.append(", enclosed, lifecycle");
+      builder.append(", enclosed");
       builder.append(");");
       builder.append(System.getProperty("line.separator"));
     }
   }
 
-  /**
-   * @return a createString() method that takes annotatedFields's type as an input.
-   */
-  private MethodSpec letRollNuller(Entry<TypeElement, AnnotatedFields> entry) {
-    StringBuilder builder = new StringBuilder();
-    castInstance(entry, builder);
-
-    for (VariableElement variableElement : entry.getValue().variableElements) {
-      if (isFinal(variableElement)) {
-        continue;
-      }
-        builder.append(String.format("element.%s = null;", variableElement.getSimpleName()));
-        builder.append(System.getProperty("line.separator"));
-    }
-
-    return MethodSpec.methodBuilder("nuller")
-        .addJavadoc("set null to every field annotated with @ChoppOnPause")
-        .addModifiers(Modifier.PUBLIC)
-        .addParameter(TypeName.OBJECT, "instance")
-        .addStatement(builder.toString())
-        .returns(TypeName.VOID)
-        .build();
+  private void choppByNull(StringBuilder builder, VariableElement variableElement) {
+    builder.append(String.format("element.%s = null;", variableElement.getSimpleName()));
+    builder.append(System.getProperty("line.separator"));
   }
 
   private void castInstance(Entry<TypeElement, AnnotatedFields> entry, StringBuilder builder) {
@@ -285,24 +312,6 @@ public class ChopperProcessor extends AbstractProcessor {
     builder.append(") ");
     builder.append("instance;");
     builder.append(System.getProperty("line.separator"));
-  }
-
-  private MethodSpec chopp() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("chopper(instance, enclosed, lifecycle);");
-    builder.append(System.getProperty("line.separator"));
-    builder.append("nuller(instance)");
-
-    return MethodSpec.methodBuilder("chopp")
-        .addJavadoc("set null to every field annotated with @ChoppOnPause")
-        .addModifiers(Modifier.PUBLIC)
-        .addAnnotation(Override.class)
-        .addParameter(TypeName.OBJECT, "instance")
-        .addParameter(TypeName.OBJECT, "enclosed")
-        .addParameter(Lifecycle.class, "lifecycle")
-        .addStatement(builder.toString())
-        .returns(TypeName.VOID)
-        .build();
   }
 }
 

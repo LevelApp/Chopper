@@ -1,7 +1,6 @@
 package com.levelapp.butterknifechopper;
 
 import butterknife.Unbinder;
-import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
@@ -11,7 +10,7 @@ import com.levelapp.annotation.chopperable.Chopperable;
 public class ButterKnifeChopperable implements Chopperable<Unbinder, Object> {
 
   @Override
-  public void chopp(Unbinder target, Object enclosed, Lifecycle lifecycle) {
+  public void chopp(Unbinder target, Object enclosed) {
     if (target != null){
       target.unbind();
     }

@@ -1,22 +1,14 @@
 package com.levelapp.choppertest;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.levelapp.annotation.annotations.ChoppOnDestroy;
 import com.levelapp.annotation.annotations.ChoppOnPause;
 import com.levelapp.annotation.annotations.ChoppOnStop;
 import com.levelapp.annotation.chopperable.ChainChopperable;
-import com.levelapp.annotation.Chopper;
-import com.levelapp.annotation.annotations.ChoppOnDestroy;
-import com.levelapp.betterproguard.BetterProguardFactoryImpl;
-import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnDestroy;
-import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnDestroyView;
-import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnPause;
-import com.levelapp.betterproguard.BetterProguardImpl_ChopperableOnStop;
 import com.levelapp.butterknifechopper.ButterKnifeChopperable;
 import com.levelapp.chopper.R;
 import com.levelapp.chopper.SubscriptionChopperable;
@@ -64,27 +56,27 @@ public class MainActivity extends AppCompatActivity {
   @ChoppOnDestroy({DisposableChopperable.class /*, SomeOtherChopperable.class */})
   DisposeElement disposeField = new DisposeElement();
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    initActivity();
-  }
+//  @Override
+//  protected void onCreate(Bundle savedInstanceState) {
+//    super.onCreate(savedInstanceState);
+//    initActivity();
+//  }
 
   @Override
   protected void onPause() {
     super.onPause();
-    Chopper.onPause(this);
+//    Chopper.onPause(this);
   }
 
   @Override
   protected void onStop() {
     super.onStop();
-    Chopper.onStop(this);
+//    Chopper.onStop(this);
   }
 
   @Override
   protected void onDestroy() {
-    Chopper.onDestroy(this);
+//    Chopper.onDestroy(this);
     super.onDestroy();
   }
 
@@ -99,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initChopper() {
-    Chopper.init(new BetterProguardFactoryImpl());
+//    Chopper.init(new BetterProguardFactoryImpl());
   }
 
   private void startRandom() {

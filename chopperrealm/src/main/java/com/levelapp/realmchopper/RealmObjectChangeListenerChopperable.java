@@ -1,6 +1,5 @@
 package com.levelapp.realmchopper;
 
-import com.levelapp.annotation.Lifecycle;
 import com.levelapp.annotation.chopperable.Chopperable;
 import io.realm.RealmChangeListener;
 import io.realm.RealmObject;
@@ -12,7 +11,7 @@ import io.realm.RealmObject;
 public class RealmObjectChangeListenerChopperable implements Chopperable<RealmObject, RealmChangeListener> {
 
   @Override
-  public void chopp(RealmObject target, RealmChangeListener enclosed, Lifecycle lifecycle) {
+  public void chopp(RealmObject target, RealmChangeListener enclosed) {
     if (target != null && enclosed != null){
       target.removeChangeListener(enclosed);
     }

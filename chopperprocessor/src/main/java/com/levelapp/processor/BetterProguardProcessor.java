@@ -1,6 +1,8 @@
 package com.levelapp.processor;
 
+import com.levelapp.annotation.Lifecycler;
 import com.levelapp.annotation.betterproguard.BetterProguard;
+import com.levelapp.annotation.chopperable.Chopperable;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -16,14 +18,6 @@ import javax.lang.model.element.TypeElement;
  */
 
 public class BetterProguardProcessor {
-
-  private final Class<?> betterInterface;
-  private final Class<?> betterBaseInterface;
-
-  public BetterProguardProcessor(Class<?> betterInterface, Class<?> betterBaseInterface) {
-    this.betterInterface = betterInterface;
-    this.betterBaseInterface = betterBaseInterface;
-  }
 
   public void generateBetterProguard(
       Set<TypeElement> keySet,
@@ -47,7 +41,7 @@ public class BetterProguardProcessor {
 
   private TypeSpec generateClass(Set<TypeElement> classes) {
     TypeSpec.Builder builder = TypeSpec
-        .classBuilder("BetterProguardImpl" + "_" + betterInterface.getSimpleName())
+        .classBuilder("BetterProguardImpl")
         .addSuperinterface(BetterProguard.class)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
     builder.addMethod(factoryMethod(classes));
@@ -67,18 +61,18 @@ public class BetterProguardProcessor {
       builder.append("return new ");
       builder.append(typeElement.getQualifiedName().toString());
       builder.append("_");
-      builder.append(betterInterface.getSimpleName());
+      builder.append(Chopperable.class.getSimpleName());
       builder.append("();\n");
       builder.append("}\n");
     }
-    builder.append("return new com.levelapp.annotation.chopperable.EmptyChopperable()");
+    builder.append("return new com.levelapp.annotation.EmptyLifecycler()");
 
     return MethodSpec.methodBuilder("getFactory")
         .addAnnotation(Override.class)
         .addModifiers(Modifier.PUBLIC)
-        .addParameter(TypeName.OBJECT, "instance")
+        .addParameter(Class.class, "instance")
         .addStatement(builder.toString())
-        .returns(betterBaseInterface)
+        .returns(Lifecycler.class)
         .build();
   }
 }
