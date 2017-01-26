@@ -113,11 +113,10 @@ public class ChopperProcessor extends AbstractProcessor {
               continue;
             }
             if (baseVariable == null) {
-              List<VariableElement> newVariables = new ArrayList<>();
-              entryBase.getValue().variableElements.put(property.getAnnotation(), newVariables);
-              baseVariable = newVariables;
+              entryBase.getValue().variableElements
+                  .put(property.getAnnotation(), new ArrayList<VariableElement>());
             }
-            baseVariable.addAll(checkVariable);
+            entryBase.getValue().addVariableElement(checkVariable, property.getAnnotation());
             messager.printMessage(KIND_LOG,
                 "For `" + entryBase.getKey().getSimpleName() + " ` element add `" + entryCheck
                     .getKey().getSimpleName() + "` variables by inheritance for `" + property
@@ -227,7 +226,8 @@ public class ChopperProcessor extends AbstractProcessor {
     builder.append(Chopperable.class.getCanonicalName());
     builder.append(" chopper;");
     builder.append(System.getProperty("line.separator"));
-    iterateVariables(entry.getValue().variableElements.get(property.getAnnotation()), builder);
+    iterateVariables(entry.getValue().variableElements.get(property.getAnnotation()), builder,
+        property);
 
     List<ParameterSpec> parameterSpecs = new ArrayList<>();
     for (Map.Entry<Class<?>, String> parameterEntry : property.getParameters().entrySet()) {
@@ -248,13 +248,19 @@ public class ChopperProcessor extends AbstractProcessor {
         .build();
   }
 
-  private void iterateVariables(List<VariableElement> variableElements, StringBuilder builder) {
+  private void iterateVariables(List<VariableElement> variableElements, StringBuilder builder,
+      LifecycleProperty property) {
     if (variableElements != null) {
       for (VariableElement variableElement : variableElements) {
         for (AnnotationMirror annotationMirror : variableElement.getAnnotationMirrors()) {
-          Map<? extends ExecutableElement, ? extends AnnotationValue> map = annotationMirror
-              .getElementValues();
-          choppVariableByAllChoppers(builder, variableElement, map);
+          String chopperClassName = LifecycleProperty.CHOPP.getAnnotation().getCanonicalName();
+          String propertyClassName = property.getAnnotation().getCanonicalName();
+          String annotationClassName = annotationMirror.getAnnotationType().toString();
+          if (propertyClassName.equals(annotationClassName) || chopperClassName.equals(propertyClassName)) {
+            Map<? extends ExecutableElement, ? extends AnnotationValue> map = annotationMirror
+                .getElementValues();
+            choppVariableByAllChoppers(builder, variableElement, map);
+          }
         }
       }
     }
@@ -281,6 +287,9 @@ public class ChopperProcessor extends AbstractProcessor {
   private void choppBySingleChopper(StringBuilder builder, VariableElement variableElement,
       List<Object> annotatedClasses) {
     for (Object annotatedClass : annotatedClasses) {
+      messager.printMessage(KIND_LOG,
+          "Prapare variable `" + variableElement.getSimpleName() + " for annotation: "
+              + annotatedClass);
       builder.append("chopper = ");
       builder.append(Chopper.class.getCanonicalName());
       builder.append(".");

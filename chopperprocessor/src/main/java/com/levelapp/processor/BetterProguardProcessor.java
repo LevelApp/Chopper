@@ -55,7 +55,7 @@ public class BetterProguardProcessor {
       builder.append("if (");
       builder.append(typeElement.getQualifiedName().toString());
       builder.append(".class.equals(");
-      builder.append("instance.getClass()");
+      builder.append("instance");
       builder.append("))");
       builder.append("{\n");
       builder.append("return new ");

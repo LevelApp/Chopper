@@ -38,85 +38,109 @@ public class Chopper {
    */
   @SuppressWarnings("Used by target application")
   public static void onCreate(Object object, Bundle bundle) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onCreate(object, object, bundle);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onCreate(object, object, bundle);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onStart(Object object) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onStart(object, object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onStart(object, object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onResume(Object object) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onResume(object, object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onResume(object, object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onPause  (Object object) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onPause(object, object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onPause(object, object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onStop  (Object object) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onStop(object, object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onStop(object, object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onDestroy  (Object object) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onDestroy(object, object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onDestroy(object, object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onSaveState  (Object object, Bundle bundle) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onSaveInstanceState(object, object, bundle);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onSaveInstanceState(object, object, bundle);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onRestoreState (Object object, Bundle bundle) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onRestoreInstanceState(object, object, bundle);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onRestoreInstanceState(object, object, bundle);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onDestroyView (Object object, Bundle bundle) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onDestroyView(object, object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onDestroyView(object, object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onCreateView (Object object, Bundle bundle) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onCreateView(object, object, bundle);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onCreateView(object, object, bundle);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void onDestroyView (Object object) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.onDestroyView(object, object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.onDestroyView(object, object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   @SuppressWarnings("Used by target application")
   public static void chopp (Object object) {
-    Lifecycler lifecycler = safeChopperObject(object);
-    lifecycler.chopp(object, object);
+    if (object != null) {
+      Lifecycler lifecycler = safeChopperObject(object);
+      lifecycler.chopp(object, object);
+    }
   }
 
   public static Lifecycler safeChopperObject(Object object) {
