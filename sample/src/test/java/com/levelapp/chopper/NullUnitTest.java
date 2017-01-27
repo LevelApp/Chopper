@@ -3,6 +3,7 @@ package com.levelapp.chopper;
 import static org.junit.Assert.assertTrue;
 
 import com.levelapp.annotation.Chopper;
+import com.levelapp.annotation.chopperable.Chopperable;
 import com.levelapp.choppertest.dispose.DisposeElement;
 import com.levelapp.choppertest.inheritance.DetailFieldNull;
 import com.levelapp.choppertest.inheritance.VeryBaseFieldNull;
@@ -23,7 +24,7 @@ public class NullUnitTest {
   public void nullCheckAllFieldTest() throws Exception {
     AllFieldToNull allFieldToNull = new AllFieldToNull("Test1", "Test2");
     AllFieldToNull_Chopperable chopper = new AllFieldToNull_Chopperable();
-    chopper.chopp(allFieldToNull, this);
+    chopper.chopp(allFieldToNull, this, Chopperable.DEFAULT_LEVEL);
     assertTrue(allFieldToNull.s1 == null);
     assertTrue(allFieldToNull.s2 == null);
   }
@@ -32,7 +33,7 @@ public class NullUnitTest {
   public void nullCheckSomeFieldTest() throws Exception {
     SomeFieldToNull someFieldToNull = new SomeFieldToNull("Test1", "Test2");
     SomeFieldToNull_Chopperable chopper = new SomeFieldToNull_Chopperable();
-    chopper.chopp(someFieldToNull, this);
+    chopper.chopp(someFieldToNull, this, Chopperable.DEFAULT_LEVEL);
     assertTrue(someFieldToNull.s1 == null);
     assertTrue(someFieldToNull.s2 != null);
   }
@@ -40,7 +41,7 @@ public class NullUnitTest {
   @Test
   public void chopperAllFieldTest() throws Exception {
     AllFieldToNull allFieldToNull = new AllFieldToNull("Test1", "Test2");
-    Chopper.onPause(allFieldToNull);
+    Chopper.chopp(allFieldToNull);
     assertTrue(allFieldToNull.s1 == null);
     assertTrue(allFieldToNull.s2 == null);
   }
@@ -48,7 +49,7 @@ public class NullUnitTest {
   @Test
   public void chopperSomeFieldTest() throws Exception {
     SomeFieldToNull someFieldToNull = new SomeFieldToNull("Test1", "Test2");
-    Chopper.onPause(someFieldToNull);
+    Chopper.chopp(someFieldToNull);
     assertTrue(someFieldToNull.s1 == null);
     assertTrue(someFieldToNull.s2 != null);
   }
@@ -56,7 +57,7 @@ public class NullUnitTest {
   @Test
   public void chopperInheritanceFieldTest() throws Exception {
     DetailFieldNull veryBaseFieldNull = new DetailFieldNull(new DisposeElement(), "Test2", "Test3");
-    Chopper.onPause(veryBaseFieldNull);
+    Chopper.chopp(veryBaseFieldNull);
     assertTrue(veryBaseFieldNull.s1 == null);
     assertTrue(veryBaseFieldNull.s2 == null);
     assertTrue(veryBaseFieldNull.s3 == null);
@@ -66,7 +67,7 @@ public class NullUnitTest {
   public void chopperInheritance2FieldTest() throws Exception {
     VeryBaseFieldNull veryBaseFieldNull = new DetailFieldNull(new DisposeElement(), "Test2",
         "Test3");
-    Chopper.onPause(veryBaseFieldNull);
+    Chopper.chopp(veryBaseFieldNull);
     DetailFieldNull detailFieldNull = (DetailFieldNull) veryBaseFieldNull;
     assertTrue(detailFieldNull.s1 == null);
     assertTrue(detailFieldNull.s2 == null);

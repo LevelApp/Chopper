@@ -7,7 +7,7 @@ package com.levelapp.annotation.chopperable;
 public class EmptyChopperable implements Chopperable {
 
   @Override
-  public void chopp(Object target, Object enclosed) {
+  public void chopp(Object target, Object enclosed, int level) {
 
   }
 }

@@ -1,12 +1,12 @@
 package com.levelapp.annotation.betterproguard;
 
-import com.levelapp.annotation.Lifecycler;
+import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 13.01.17.
  */
 
-public class NoBetterProguardFactory<T extends Lifecycler> implements BetterProguard {
+public class NoBetterProguardFactory<T extends Chopperable> implements BetterProguard {
 
   Class<T> clazz;
 
@@ -15,10 +15,10 @@ public class NoBetterProguardFactory<T extends Lifecycler> implements BetterProg
   }
 
   @Override
-  public Lifecycler getFactory(Class clazz) {
+  public Chopperable getFactory(Class clazz) {
     String className = prepareClassName(clazz);
     try {
-      Lifecycler lifecycler = (Lifecycler) Class.forName(className).newInstance();
+      Chopperable lifecycler = (Chopperable) Class.forName(className).newInstance();
       return lifecycler;
     } catch (InstantiationException e) {
       e.printStackTrace();

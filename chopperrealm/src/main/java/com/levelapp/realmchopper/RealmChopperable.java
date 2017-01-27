@@ -10,7 +10,7 @@ import io.realm.Realm;
 public class RealmChopperable implements Chopperable<Realm, Object> {
 
   @Override
-  public void chopp(Realm target, Object enclosed) {
+  public void chopp(Realm target, Object enclosed, int level) {
     if (target != null && !target.isClosed()){
       target.close();
     }

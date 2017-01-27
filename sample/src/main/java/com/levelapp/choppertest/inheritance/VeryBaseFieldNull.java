@@ -1,6 +1,6 @@
 package com.levelapp.choppertest.inheritance;
 
-import com.levelapp.annotation.annotations.ChoppOnPause;
+import com.levelapp.annotation.annotations.Chopp;
 import com.levelapp.choppertest.dispose.DisposableChopperable;
 import com.levelapp.choppertest.dispose.DisposeElement;
 
@@ -10,6 +10,6 @@ import com.levelapp.choppertest.dispose.DisposeElement;
 
 public abstract class VeryBaseFieldNull {
 
-  @ChoppOnPause({DisposableChopperable.class})
+  @Chopp(DisposableChopperable.class)
   public DisposeElement s1;
 }

@@ -10,7 +10,7 @@ import com.levelapp.annotation.chopperable.Chopperable;
 public class RecyclerViewChopperable implements Chopperable<RecyclerView, Object> {
 
   @Override
-  public void chopp(RecyclerView target, Object enclosed) {
+  public void chopp(RecyclerView target, Object enclosed, int level) {
     if (target != null){
       target.setAdapter(null);
     }

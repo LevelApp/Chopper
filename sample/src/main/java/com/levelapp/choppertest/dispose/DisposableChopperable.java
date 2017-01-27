@@ -9,7 +9,7 @@ import com.levelapp.annotation.chopperable.Chopperable;
 public class DisposableChopperable implements Chopperable<Disposable, Object> {
 
   @Override
-  public void chopp(Disposable target, Object enclosed) {
+  public void chopp(Disposable target, Object enclosed, int level) {
     if (target != null){
       target.dispose();
     }

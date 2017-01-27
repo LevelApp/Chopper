@@ -1,6 +1,6 @@
 package com.levelapp.choppertest.inheritance;
 
-import com.levelapp.annotation.annotations.ChoppOnPause;
+import com.levelapp.annotation.annotations.Chopp;
 
 /**
  * Created by rafaldziuryk on 01.01.17.
@@ -8,6 +8,6 @@ import com.levelapp.annotation.annotations.ChoppOnPause;
 
 public class BaseFieldNull extends VeryBaseFieldNull {
 
-  @ChoppOnPause
+  @Chopp
   public String s2;
 }

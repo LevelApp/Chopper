@@ -1,11 +1,11 @@
 package com.levelapp.annotation.betterproguard;
 
-import com.levelapp.annotation.Lifecycler;
+import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
  * Created by rafaldziuryk on 12.01.17.
  */
 
 public interface BetterProguard {
-  Lifecycler getFactory(Class instance);
+  Chopperable getFactory(Class instance);
 }

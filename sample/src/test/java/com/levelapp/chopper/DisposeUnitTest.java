@@ -21,7 +21,7 @@ public class DisposeUnitTest {
     Chopperable<Disposable, Object> chopper = new DisposableChopperable();
     DisposeElement disposeElement = new DisposeElement();
     Assert.assertFalse(DisposeField.disposed);
-    chopper.chopp(disposeElement, this);
+    chopper.chopp(disposeElement, this, Chopperable.DEFAULT_LEVEL);
     Assert.assertTrue(DisposeField.disposed);
   }
 }

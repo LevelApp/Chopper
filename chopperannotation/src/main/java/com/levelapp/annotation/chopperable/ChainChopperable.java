@@ -9,7 +9,7 @@ import com.levelapp.annotation.Chopper;
 public class ChainChopperable implements Chopperable<Object, Object> {
 
   @Override
-  public void chopp(Object target, Object enclosed) {
-      Chopper.chopp(target);
+  public void chopp(Object target, Object enclosed, int level) {
+      Chopper.chopp(target, level);
   }
 }

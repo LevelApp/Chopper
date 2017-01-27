@@ -9,5 +9,8 @@ package com.levelapp.annotation.chopperable;
  */
 
 public interface Chopperable<T, E> {
-  void chopp(T target, E enclosed);
+
+  int DEFAULT_LEVEL = 20;
+
+  void chopp(T target, E enclosed, int level);
 }

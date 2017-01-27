@@ -11,7 +11,7 @@ import com.levelapp.annotation.chopperable.Chopperable;
 public class BroadcastReceiverChopperable implements Chopperable<BroadcastReceiver, Context> {
 
   @Override
-  public void chopp(BroadcastReceiver target, Context enclosed) {
+  public void chopp(BroadcastReceiver target, Context enclosed, int level) {
     if (enclosed != null && target != null){
       try {
         enclosed.unregisterReceiver(target);

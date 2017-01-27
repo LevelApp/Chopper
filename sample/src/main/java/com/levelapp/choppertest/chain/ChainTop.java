@@ -1,7 +1,7 @@
 package com.levelapp.choppertest.chain;
 
+import com.levelapp.annotation.annotations.Chopp;
 import com.levelapp.annotation.chopperable.ChainChopperable;
-import com.levelapp.annotation.annotations.ChoppOnPause;
 
 /**
  * Created by rafaldziuryk on 10.01.17.
@@ -9,7 +9,7 @@ import com.levelapp.annotation.annotations.ChoppOnPause;
 
 public class ChainTop {
 
-  @ChoppOnPause(ChainChopperable.class)
+  @Chopp(ChainChopperable.class)
   public ChainMedium chainMedium;
 
   public ChainTop(ChainMedium chainMedium){

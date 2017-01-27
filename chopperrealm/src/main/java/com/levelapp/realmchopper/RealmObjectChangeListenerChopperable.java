@@ -11,7 +11,7 @@ import io.realm.RealmObject;
 public class RealmObjectChangeListenerChopperable implements Chopperable<RealmObject, RealmChangeListener> {
 
   @Override
-  public void chopp(RealmObject target, RealmChangeListener enclosed) {
+  public void chopp(RealmObject target, RealmChangeListener enclosed, int level) {
     if (target != null && enclosed != null){
       target.removeChangeListener(enclosed);
     }

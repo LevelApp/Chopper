@@ -12,7 +12,7 @@ import io.realm.RealmResults;
 public class RealmResultChangeListenerChopperable implements Chopperable<RealmResults<? extends RealmModel>, RealmChangeListener> {
 
   @Override
-  public void chopp(RealmResults<? extends RealmModel> target, RealmChangeListener enclosed) {
+  public void chopp(RealmResults<? extends RealmModel> target, RealmChangeListener enclosed, int level) {
     if (target != null && enclosed != null){
       target.removeChangeListener(enclosed);
     }

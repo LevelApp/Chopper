@@ -7,12 +7,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.levelapp.annotation.Chopper;
-import com.levelapp.annotation.annotations.ChoppOnDestroy;
-import com.levelapp.annotation.annotations.ChoppOnPause;
-import com.levelapp.annotation.annotations.ChoppOnStop;
+import com.levelapp.annotation.annotations.Chopp;
 import com.levelapp.annotation.chopperable.ChainChopperable;
-import com.levelapp.betterproguard.BetterProguardImpl;
-import com.levelapp.butterknifechopper.ButterKnifeChopperable;
+import com.levelapp.butterknifechopper.ButterKnifeUnbindChopperable;
 import com.levelapp.chopper.R;
 import com.levelapp.chopper.SubscriptionChopperable;
 import com.levelapp.choppertest.chain.ChainField;
@@ -25,8 +22,6 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
 
@@ -38,27 +33,26 @@ public class MainActivity extends AppCompatActivity {
   @BindView(R.id.Random_Text)
   TextView random;
 
-  @ChoppOnDestroy
+  @Chopp
   Object object = new Object();
 
-  @ChoppOnDestroy(SubscriptionChopperable.class)
-  @ChoppOnPause(SubscriptionChopperable.class)
-  @ChoppOnStop(ButterKnifeChopperable.class)
+  @Chopp(value = ButterKnifeUnbindChopperable.class, level = 10)
+  @Chopp(value = SubscriptionChopperable.class, level = 20)
   Subscription subscription = Subscriptions.empty();
 
-  @ChoppOnStop(SubscriptionChopperable.class)
+  @Chopp(SubscriptionChopperable.class)
   CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-  @ChoppOnDestroy(ButterKnifeChopperable.class)
+  @Chopp(value = ButterKnifeUnbindChopperable.class, level = 3)
   Unbinder unbinder;
 
-  @ChoppOnDestroy(RealmChopperable.class)
+  @Chopp(value = RealmChopperable.class, level = 16)
   Realm realm;
 
-  @ChoppOnPause(ChainChopperable.class)
+  @Chopp(ChainChopperable.class)
   ChainField chainField = new ChainField();
 
-  @ChoppOnDestroy({DisposableChopperable.class /*, SomeOtherChopperable.class */})
+  @Chopp({DisposableChopperable.class /*, SomeOtherChopperable.class */})
   DisposeElement disposeField = new DisposeElement();
 
   @Override
@@ -70,18 +64,18 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    Chopper.onPause(this);
+    Chopper.chopp(this, 0);
   }
 
   @Override
   protected void onStop() {
     super.onStop();
-    Chopper.onStop(this);
+    Chopper.chopp(this, 0);
   }
 
   @Override
   protected void onDestroy() {
-    Chopper.onDestroy(this);
+    Chopper.chopp(this, 0);
     super.onDestroy();
   }
 
@@ -96,24 +90,16 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initChopper() {
-    Chopper.init(new BetterProguardImpl());
+//    Chopper.init(new BetterProguardImpl());
   }
 
   private void startRandom() {
     final Random randomizer = new Random();
     Subscription randomSubscription = Observable.interval(1, TimeUnit.SECONDS)
-        .map(new Func1<Long, Long>() {
-          @Override
-          public Long call(Long aLong) {
-            return aLong * randomizer.nextInt();
-          }
-        })
+        .map(aLong -> aLong * randomizer.nextInt())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<Long>() {
-          @Override
-          public void call(Long rand) {
-            random.setText("Random: " + rand);
-          }
+        .subscribe(rand -> {
+          random.setText("Random: " + rand);
         });
     compositeSubscription.add(randomSubscription);
   }
@@ -121,11 +107,8 @@ public class MainActivity extends AppCompatActivity {
   private void startCounter() {
     subscription = Observable.interval(1, TimeUnit.SECONDS)
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<Long>() {
-          @Override
-          public void call(Long count) {
-            counter.setText("Count: " + count);
-          }
+        .subscribe(count -> {
+          counter.setText("Count: " + count);
         });
   }
 }
