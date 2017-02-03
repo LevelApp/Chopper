@@ -66,18 +66,18 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    Chopper.chopp(this, 0);
+    Chopper.chopp(this, 20);
   }
 
   @Override
   protected void onStop() {
     super.onStop();
-    Chopper.chopp(this, 0);
+    Chopper.chopp(this, 50);
   }
 
   @Override
   protected void onDestroy() {
-    Chopper.chopp(this, 0);
+    Chopper.chopp(this, 100);
     super.onDestroy();
   }
 
