@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
-    Chopper.chopp(this, 100);
     super.onDestroy();
+    Chopper.chopp(this, 100);
   }
 
   private void initActivity() {
