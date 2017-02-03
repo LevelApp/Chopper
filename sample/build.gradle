@@ -5,10 +5,10 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.levelapp.chopper"
-        minSdkVersion 25
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -27,8 +27,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

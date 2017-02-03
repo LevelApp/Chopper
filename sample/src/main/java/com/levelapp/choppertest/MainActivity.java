@@ -9,6 +9,7 @@ import butterknife.Unbinder;
 import com.levelapp.annotation.Chopper;
 import com.levelapp.annotation.annotations.Chopp;
 import com.levelapp.annotation.chopperable.ChainChopperable;
+import com.levelapp.betterproguard.BetterProguardImpl;
 import com.levelapp.butterknifechopper.ButterKnifeUnbindChopperable;
 import com.levelapp.chopper.R;
 import com.levelapp.chopper.SubscriptionChopperable;
@@ -22,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
 
@@ -36,17 +39,16 @@ public class MainActivity extends AppCompatActivity {
   @Chopp
   Object object = new Object();
 
-  @Chopp(value = ButterKnifeUnbindChopperable.class, level = 10)
   @Chopp(value = SubscriptionChopperable.class, level = 20)
   Subscription subscription = Subscriptions.empty();
 
   @Chopp(SubscriptionChopperable.class)
   CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-  @Chopp(value = ButterKnifeUnbindChopperable.class, level = 3)
+  @Chopp(value = ButterKnifeUnbindChopperable.class, level = 100)
   Unbinder unbinder;
 
-  @Chopp(value = RealmChopperable.class, level = 16)
+  @Chopp(value = RealmChopperable.class, level = 50)
   Realm realm;
 
   @Chopp(ChainChopperable.class)
@@ -90,16 +92,24 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initChopper() {
-//    Chopper.init(new BetterProguardImpl());
+    Chopper.init(new BetterProguardImpl());
   }
 
   private void startRandom() {
     final Random randomizer = new Random();
     Subscription randomSubscription = Observable.interval(1, TimeUnit.SECONDS)
-        .map(aLong -> aLong * randomizer.nextInt())
+        .map(new Func1<Long, Long>() {
+          @Override
+          public Long call(Long aLong) {
+            return aLong * randomizer.nextInt();
+          }
+        })
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(rand -> {
-          random.setText("Random: " + rand);
+        .subscribe(new Action1<Long>() {
+          @Override
+          public void call(Long aLong) {
+            random.setText("Random: " + aLong);
+          }
         });
     compositeSubscription.add(randomSubscription);
   }
@@ -107,8 +117,11 @@ public class MainActivity extends AppCompatActivity {
   private void startCounter() {
     subscription = Observable.interval(1, TimeUnit.SECONDS)
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(count -> {
-          counter.setText("Count: " + count);
+        .subscribe(new Action1<Long>() {
+          @Override
+          public void call(Long aLong) {
+            counter.setText("Count: " + aLong);
+          }
         });
   }
 }

@@ -3,6 +3,8 @@ package com.levelapp.annotation.betterproguard;
 import com.levelapp.annotation.chopperable.Chopperable;
 
 /**
+ * No proguard implementation. Standard Class.forName() instance creating
+ *
  * Created by rafaldziuryk on 13.01.17.
  */
 

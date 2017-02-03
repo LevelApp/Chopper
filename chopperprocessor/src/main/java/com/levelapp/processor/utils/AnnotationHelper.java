@@ -3,8 +3,10 @@ package com.levelapp.processor.utils;
 import com.levelapp.annotation.Chopper;
 import com.levelapp.annotation.annotations.Chopp;
 import com.levelapp.annotation.annotations.Chopps;
+import com.levelapp.annotation.chopperable.Chopperable;
 import com.levelapp.processor.model.ChopperElement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,6 +15,10 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.MirroredTypesException;
+import javax.lang.model.type.TypeMirror;
+import javax.tools.Diagnostic.Kind;
 
 /**
  * Created by rafaldziuryk on 27.01.17.
@@ -27,20 +33,16 @@ public class AnnotationHelper {
       if (Chopps.class.getSimpleName()
           .equals(annotationMirror.getAnnotationType().asElement().getSimpleName().toString())) {
 //                repeatable annotation
-//        Map<? extends ExecutableElement, ? extends AnnotationValue> map = annotationMirror
-//            .getElementValues();
-//        for (ExecutableElement e : map.keySet()) {
-//          AnnotationValue annotationValue = map.get(e);
-//          List chopps = (List) annotationValue.getValue();
-//          messager.printMessage(ChopperProcessor.KIND_LOG, chopps.get(0).getClass().getCanonicalName());
-//          for (Chopp chopp : chopps) {
-//            if (!objects.containsKey(chopp.level())) {
-//              objects.put(chopp.level(), new ArrayList<ChopperElement>());
-//            }
-//            objects.get(chopp.level()).add(new ChopperElement(variableElement, chopp.value()));
-//          }
-//        }
-
+        Chopps chopps = variableElement.getAnnotation(Chopps.class);
+        Chopp[] choppers = chopps.value();
+        for (Chopp chopp : choppers) {
+          ChopperElement chopperElement = new ChopperElement();
+          chopperElement.setElement(variableElement);
+          List<? extends TypeMirror> typeMirror = getValues(chopp, messager);
+          messager.printMessage(Kind.WARNING, typeMirror.toString());
+//          List classList = Arrays.asList(chopp.value());
+//          chopperElement.setChopperClass(classList);
+        }
       } else if (Chopp.class.getSimpleName()
           .equals(annotationMirror.getAnnotationType().asElement().getSimpleName().toString())) {
 //        single annotation
@@ -48,7 +50,7 @@ public class AnnotationHelper {
             .getElementValues();
         ChopperElement chopperElement = new ChopperElement();
         chopperElement.setElement(variableElement);
-        int level = 100;
+        int level = Chopperable.DEFAULT_LEVEL;
         for (ExecutableElement e : map.keySet()) {
           if (Chopper.CHOPPER_PROPERTY.equals(e.getSimpleName().toString())) {
             AnnotationValue chopper = map.get(e);
@@ -68,5 +70,16 @@ public class AnnotationHelper {
       }
     }
     return objects;
+  }
+
+  private static List<? extends TypeMirror> getValues(Chopp annotation, Messager messager) {
+    try {
+      annotation.value(); // this should throw
+    } catch (MirroredTypesException mte) {
+      return mte.getTypeMirrors();
+    } catch (Throwable e){
+      messager.printMessage(Kind.WARNING, e.toString());
+    }
+    return null; // can this ever happen ??
   }
 }

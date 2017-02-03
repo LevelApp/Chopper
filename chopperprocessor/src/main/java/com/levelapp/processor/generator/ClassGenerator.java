@@ -2,8 +2,8 @@ package com.levelapp.processor.generator;
 
 import static com.levelapp.processor.generator.MethodGenerator.letRollChoppers;
 
-import com.levelapp.annotation.EmptyLifecycler;
 import com.levelapp.annotation.chopperable.Chopperable;
+import com.levelapp.annotation.chopperable.EmptyChopperable;
 import com.levelapp.processor.model.AnnotatedFields;
 import com.levelapp.processor.model.ChopperElement;
 import com.squareup.javapoet.JavaFile;
@@ -40,7 +40,7 @@ public class ClassGenerator {
     TypeSpec.Builder builder = TypeSpec
         .classBuilder(
             entry.getValue().getTypeElement().getSimpleName() + "_" + Chopperable.class.getSimpleName())
-        .superclass(EmptyLifecycler.class)
+        .superclass(EmptyChopperable.class)
         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
 
     Map<Integer, List<ChopperElement>> variables = entry.getValue().getVariableElements();

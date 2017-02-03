@@ -1,6 +1,8 @@
 package com.levelapp.annotation.chopperable;
 
 /**
+ * Empty chopperable implementation
+ *
  * Created by rafaldziuryk on 15.01.17.
  */
 

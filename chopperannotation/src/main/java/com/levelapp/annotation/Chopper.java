@@ -5,6 +5,7 @@ import com.levelapp.annotation.betterproguard.NoBetterProguardFactory;
 import com.levelapp.annotation.chopperable.Chopperable;
 import java.util.HashMap;
 import java.util.Map;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Main class for onDestroy all objects
@@ -24,8 +25,13 @@ public class Chopper {
 
   /**
    * Provide factory method to get minified Chopperable class
+   *
+   * @param betterProguardFactory instance creating implementation for full proguard support
    */
-  public static void init(BetterProguard betterProguardFactory) {
+  public static void init(@Nullable BetterProguard betterProguardFactory) {
+    if (betterProguardFactory == null){
+      betterProguardFactory = new NoBetterProguardFactory<>(Chopperable.class);
+    }
     Chopper.betterProguardFactory = betterProguardFactory;
   }
 

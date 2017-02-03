@@ -22,7 +22,7 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
-class ChopperProcessor extends AbstractProcessor {
+public class ChopperProcessor extends AbstractProcessor {
 
   private Messager messager;
 
