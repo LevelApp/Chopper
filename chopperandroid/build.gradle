@@ -26,6 +26,7 @@ android {
 dependencies {
     compile project(':chopperannotation')
     compile 'com.android.support:recyclerview-v7:25.1.0'
+    provided 'com.android.support:recyclerview-v7:25.1.0'
 }
 
 sourceCompatibility = "1.7"
