@@ -18,10 +18,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
-    compile project (':chopperannotation')
+    compile project(':chopperannotation')
     compile 'com.jakewharton:butterknife:8.4.0'
 }
 
