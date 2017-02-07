@@ -22,7 +22,7 @@ android {
 
 dependencies {
     compile project (':chopperannotation')
-    compile 'com.android.support:recyclerview-v7:25.0.1'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
 }
 
 sourceCompatibility = "1.7"
