@@ -81,8 +81,8 @@ allprojects {
 Android support
 --------
 ```java
-  @ChoppOnX(BroadcastReceiverChopperable.class)
-  @ChoppOnX(RecyclerViewChopperable.class)
+  @Chopp(BroadcastReceiverChopperable.class)
+  @Chopp(RecyclerViewChopperable.class)
 ```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperandroid:1.0.1'
@@ -93,7 +93,7 @@ Other libraries support
 
 * ButterKnife
 ```java
-  @ChoppOnX(ButterKnifeChopperable.class)
+  @Chopp(ButterKnifeChopperable.class)
 ```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperbutterknife:1.0.1'
@@ -101,7 +101,7 @@ Other libraries support
 
 * RxJava
 ```java
-  @ChoppOnX(SubscriptionChopperable.class)
+  @Chopp(SubscriptionChopperable.class)
 ```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperrxjava:1.0.1'
@@ -109,7 +109,7 @@ Other libraries support
 
 * RxJava2
 ```java
-  @ChoppOnX(SubscriptionChopperable.class)
+  @Chopp(SubscriptionChopperable.class)
 ```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperrxjava2:1.0.1'
@@ -117,9 +117,9 @@ Other libraries support
 
 * Realm
 ```java
-  @ChoppOnX(chopper = {RealmChopperable.class})
-  @ChoppOnX(chopper = {RealmObjectChangeListenerChopperable.class})
-  @ChoppOnX(chopper = {RealmResultChangeListenerChopperable.class})
+  @Chopp(RealmChopperable.class)
+  @Chopp(RealmObjectChangeListenerChopperable.class)
+  @Chopp(RealmResultChangeListenerChopperable.class)
 ```
 ```groovy
   compile 'com.github.levelapp.Chopper:chopperrealm:1.0.1'
