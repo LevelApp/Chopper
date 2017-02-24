@@ -18,16 +18,19 @@ public class NoBetterProguardFactory<T extends Chopperable> implements BetterPro
 
   @Override
   public Chopperable getFactory(Class clazz) {
-    String className = prepareClassName(clazz);
-    try {
-      Chopperable lifecycler = (Chopperable) Class.forName(className).newInstance();
-      return lifecycler;
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+    while(!clazz.equals(Object.class)) {
+      try {
+        String className = prepareClassName(clazz);
+        Chopperable lifecycler = (Chopperable) Class.forName(className).newInstance();
+        return lifecycler;
+      } catch (InstantiationException e) {
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      }
+      clazz = clazz.getSuperclass();
     }
     return null;
   }

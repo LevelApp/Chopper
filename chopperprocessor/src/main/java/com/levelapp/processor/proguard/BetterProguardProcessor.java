@@ -10,6 +10,8 @@ import java.util.Set;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeMirror;
 
 /**
  * Created by rafaldziuryk on 12.01.17.
@@ -53,6 +55,21 @@ public class BetterProguardProcessor {
       builder.append("if (");
       builder.append(typeElement.getQualifiedName().toString());
       builder.append(".class.equals(");
+      builder.append("instance");
+      builder.append("))");
+      builder.append("{\n");
+      builder.append("return new ");
+      builder.append(typeElement.getQualifiedName().toString());
+      builder.append("_");
+      builder.append(Chopperable.class.getSimpleName());
+      builder.append("();\n");
+      builder.append("}\n");
+    }
+
+    for (TypeElement typeElement : keySet) {
+      builder.append("if (");
+      builder.append(typeElement.getQualifiedName().toString());
+      builder.append(".class.isAssignableFrom(");
       builder.append("instance");
       builder.append("))");
       builder.append("{\n");

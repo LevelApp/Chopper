@@ -4,9 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.levelapp.annotation.Chopper;
+import com.levelapp.betterproguard.BetterProguardImpl;
 import com.levelapp.choppertest.chain.ChainField;
 import com.levelapp.choppertest.dispose.DisposeElement;
 import com.levelapp.choppertest.dispose.DisposeField;
+import com.levelapp.choppertest.inheritance.EmptyFieldNull;
 import com.levelapp.choppertest.nullcheck.AllFieldToNull;
 import com.levelapp.choppertest.nullcheck.SomeFieldToNull;
 import org.junit.Test;
@@ -48,5 +50,15 @@ public class ChopperUnitTest {
     ChainField chainField = new ChainField();
     Chopper.chopp(chainField);
     assertTrue(chainField.isChopped());
+  }
+
+  @Test
+  public void chopperEmptyInheritanceTest() throws Exception {
+    Chopper.init(new BetterProguardImpl());
+    DisposeField.disposed = false;
+    DisposeElement element = new DisposeElement();
+    EmptyFieldNull emptyFieldNull = new EmptyFieldNull(element);
+    Chopper.chopp(emptyFieldNull);
+    assertTrue(DisposeField.disposed);
   }
 }
