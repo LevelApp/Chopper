@@ -67,8 +67,8 @@ Download
 
 ```groovy
 dependencies {
-  compile 'com.github.levelapp.Chopper:chopperannotation:1.0.1'
-  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:1.0.1'
+  compile 'com.github.levelapp.Chopper:chopperannotation:1.0.2'
+  annotationProcessor 'com.github.levelapp.Chopper:chopperprocessor:1.0.2'
 }
 
 allprojects {
@@ -85,7 +85,7 @@ Android support
   @Chopp(RecyclerViewChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperandroid:1.0.1'
+  compile 'com.github.levelapp.Chopper:chopperandroid:1.0.2'
 ```
 
 Other libraries support
@@ -96,7 +96,7 @@ Other libraries support
   @Chopp(ButterKnifeChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperbutterknife:1.0.1'
+  compile 'com.github.levelapp.Chopper:chopperbutterknife:1.0.2'
 ```
 
 * RxJava
@@ -104,7 +104,7 @@ Other libraries support
   @Chopp(SubscriptionChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava:1.0.1'
+  compile 'com.github.levelapp.Chopper:chopperrxjava:1.0.2'
 ```
 
 * RxJava2
@@ -112,7 +112,7 @@ Other libraries support
   @Chopp(SubscriptionChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrxjava2:1.0.1'
+  compile 'com.github.levelapp.Chopper:chopperrxjava2:1.0.2'
 ```
 
 * Realm
@@ -122,7 +122,7 @@ Other libraries support
   @Chopp(RealmResultChangeListenerChopperable.class)
 ```
 ```groovy
-  compile 'com.github.levelapp.Chopper:chopperrealm:1.0.1'
+  compile 'com.github.levelapp.Chopper:chopperrealm:1.0.2'
 ```
 
 Proguard
